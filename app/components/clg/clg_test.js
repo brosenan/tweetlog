@@ -54,16 +54,25 @@ describe('cloudlog module', function() {
     describe('.getIndexed(pattern, params, scope, expr, errCb)', function(){
 	it('should perform an indexed query', function(){
 	    var pattern = "bar(X)";
-	    var params = {X: "foo"};
+	    var params = {X: "foo", Y: 2};
 	    var scope = {};
 	    var expr = "results";
 	    var resp = [{Fact: {name: "foo", args: []}, _count: 1},
 			{Fact: {name: "bar", args: []}, _count: 1}];
 	    $httpBackend.expectPOST('/encode/idx', pattern).respond(200, '{"url":"http://myserver/idx/idxencoded"}');
-	    $httpBackend.expectGET("http://myserver/idx/idxencoded?str-X=foo").respond(200, resp);
+	    $httpBackend.expectGET("http://myserver/idx/idxencoded?num-Y=2&str-X=foo").respond(200, resp);
 	    cloudlog.getIndexed(pattern, params, scope, expr);
 	    $httpBackend.flush();
 	    expect(scope.results).toEqual(resp);
+	});
+    });
+    describe('.defineNamspace(name, alias)', function(){
+	it('should append import-* query params to /f queries', function(){
+	    cloudlog.defineNamspace('/foo', 'foo');
+	    $httpBackend.expectPOST('/encode/f', 'somePattern').respond(200, '{"url":"http://myserver/abcdefg123"}');
+	    $httpBackend.expectPOST('http://myserver/abcdefg123?import-foo=' + encodeURIComponent('/foo'), []).respond(200, '{"status":"OK"}');
+	    cloudlog.addAxioms('somePattern', []);
+	    $httpBackend.flush();
 	});
 
     });

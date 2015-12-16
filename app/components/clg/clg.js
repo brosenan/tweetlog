@@ -8,6 +8,7 @@ angular.module('cloudlog', [
     .value('version', '0.1')
     .factory('cloudlog', ['$http', '$parse', function($http, $parse) {
 	var encoded = Object.create(null);
+	var namespaces = Object.create(null);
 	function encode(pattern, path, cb, errCb) {
 	    if(pattern in encoded) {
 		cb(encoded[pattern]);
@@ -26,7 +27,11 @@ angular.module('cloudlog', [
 	function calcParams(params) {
 	    var result = Object.create(null);
 	    Object.keys(params).forEach(function(key) {
-		result['str-' + key] = params[key];
+		if(typeof params[key] === 'string') {
+		    result['str-' + key] = params[key];
+		} else if(typeof params[key] === 'number') {
+		    result['num-' + key] = params[key];
+		}
 	    });
 	    return result;
 	}
@@ -38,7 +43,8 @@ angular.module('cloudlog', [
 			method: 'POST',
 			url: url,
 			data: data,
-		    }).then(function(resp) {if(done) done()}, errCb);
+			params: namespaces,
+		    }).then(done, errCb);
 		}, errCb);
 	    },
 	    getIndexed: function(pattern, params, scope, expr, errCb) {
@@ -52,6 +58,9 @@ angular.module('cloudlog', [
 			setter(scope, resp.data);
 		    }, errCb);
 		});
+	    },
+	    defineNamspace: function(name, alias) {
+		namespaces['import-' + alias] = name;
 	    },
 	};
     }]);
