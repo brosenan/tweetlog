@@ -7,6 +7,17 @@ angular.module('cloudlog-directive', [])
 	    cloudlog.defineNamspace(attrs.name, attrs.alias);
 	};
 	return {
+	    restrict: 'E',
+	    link: link,
+	};
+    }])
+
+    .directive('clgDefine', ['cloudlog', function(cloudlog) {
+	function link(scope, element, attrs) {
+	    cloudlog.defineConcept(attrs.concept, attrs.alias);
+	};
+	return {
+	    restrict: 'E',
 	    link: link,
 	};
     }]);

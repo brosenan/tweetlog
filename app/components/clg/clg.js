@@ -6,6 +6,8 @@ angular.module('cloudlog', [
     .factory('cloudlog', ['$http', '$parse', function($http, $parse) {
 	var encoded = Object.create(null);
 	var namespaces = Object.create(null);
+	var concepts = Object.create(null);
+	var contepRE = /([a-zA-Z_]+):([a-zA-Z_]+)\((.*)\)/;
 	function encode(pattern, path, cb, errCb) {
 	    if(pattern in encoded) {
 		cb(encoded[pattern]);
@@ -32,6 +34,18 @@ angular.module('cloudlog', [
 	    });
 	    return result;
 	}
+	function addConceptValues(data) {
+	    data.forEach(function(elem) {
+		if(elem.Fact.name in concepts) {
+		    var concept = concepts[elem.Fact.name];
+		    for(var i = 0; i < concept.args.length; i++) {
+			elem[concept.args[i]] = elem.Fact.args[i];
+		    }
+		    elem.alias = concept.alias;
+		}
+	    });
+	    return data;
+	}
 	return {
 	    addAxioms: function(pattern, data, done, errCb) {
 		encode(pattern, '/f', function(url) {
@@ -52,12 +66,22 @@ angular.module('cloudlog', [
 			url: url,
 			params: calcParams(params, namespaces),
 		    }).then(function(resp) {
-			setter(scope, resp.data);
+			setter(scope, addConceptValues(resp.data));
 		    }, errCb);
 		});
 	    },
 	    defineNamspace: function(name, alias) {
 		namespaces['import-' + alias] = name;
 	    },
+	    defineConcept: function(concept, alias) {
+		var m = concept.match(contepRE);
+		var args = m[3]
+		    .split(',')
+		    .map(function(s) { return s.trim(); });
+		var ns = namespaces['import-' + m[1]] || m[1];
+		concepts[ns + '#' + m[2]] = {alias: alias,
+					       args: args};
+	    },
+	    _concepts: concepts,
 	};
     }]);

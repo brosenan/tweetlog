@@ -82,6 +82,38 @@ describe('cloudlog module', function() {
 	    cloudlog.getIndexed('somePattern', {Bar: 1, Baz: 'z'}, {}, 'someField');
 	    $httpBackend.flush();
 	});
+    });
+    describe('.defineConcept(concept, alias)', function(){
+	it('should add a concept to the concept registry', function(){
+	    cloudlog.defineConcept("ns:foo(A, B, C)", "foo");
+	    expect(cloudlog._concepts['ns#foo']).toBeDefined();
+	    expect(cloudlog._concepts['ns#foo'].alias).toBe("foo");
+	    expect(cloudlog._concepts['ns#foo'].args).toEqual(['A', 'B', 'C']);
+	});
+	it('should respect defined namespaces', function(){
+	    cloudlog.defineNamspace("/myNamespace", "ns");
+	    cloudlog.defineConcept("ns:foo(A, B, C)", "foo");
+	    expect(cloudlog._concepts['/myNamespace#foo']).toBeDefined();
+	});
+	it('should decorate matching index results with the variables in the concept bound to their respective values', function(){
+	    var results = [
+		{Fact: {name: 'ns#foo', args: [1, 2]}, _count: 1},
+		{Fact: {name: 'ns#bar', args: ['a', 'b', 'c']}, _count: 1},
+	    ];
+	    var scope = {};
+	    $httpBackend.expectPOST('/encode/idx', 'somePattern').respond(200, '{"url":"http://myserver/abcdefg123"}');
+	    $httpBackend.expectGET('http://myserver/abcdefg123').respond(200, JSON.stringify(results));
+	    cloudlog.defineConcept('ns:foo(A, B)', 'foo');
+	    cloudlog.defineConcept('ns:bar(X, Y, Z)', 'bar');
+	    cloudlog.getIndexed('somePattern', {}, scope, 'results');
+	    $httpBackend.flush();
+
+	    expect(scope.results[0].A).toBe(1);
+	    expect(scope.results[0].alias).toBe('foo');
+	    expect(scope.results[1].A).toBeUndefined();
+	    expect(scope.results[1].Z).toBe('c');
+	    expect(scope.results[1].alias).toBe('bar');
+	});
 
     });
 
