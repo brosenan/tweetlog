@@ -24,17 +24,15 @@ angular.module('cloudlog', [
 	    }
 	}
 	return {
-	    addAxioms: function(pattern, data) {
-		function handleError(resp) {
-		}
+	    addAxioms: function(pattern, data, done, errCb) {
 		encode(pattern, function(url) {
 		    data.forEach(function(x) { x._count = 1; });
 		    $http({
 			method: 'POST',
 			url: url,
 			data: data,
-		    }).then(function(resp) {}, handleError);
-		}, handleError);
+		    }).then(function(resp) {if(done) done()}, errCb);
+		}, errCb);
 	    },
 	};
     }]);
