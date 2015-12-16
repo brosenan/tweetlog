@@ -22,11 +22,22 @@ describe('cloudlog module', function() {
 	    var pattern = "foo(A, B)";
 	    var data = [{A: 1, B: 2}];
 	    $httpBackend.expectPOST('/encode/f', pattern).respond(200, '{"url":"http://myserver/abcdefg123"}');
-	    $httpBackend.expectPOST('http://myserver/abcdefg123', data).respond(200, '{"status":"OK"}');
+	    $httpBackend.expectPOST('http://myserver/abcdefg123', [{A: 1, B: 2, _count:1}]).respond(200, '{"status":"OK"}');
 	    cloudlog.addAxioms(pattern, data);
 	    $httpBackend.flush();
 	});
-
+	it('should not encode a pattern already encoded', function(){
+	    var pattern = "foo(A, B)";
+	    var data1 = [{A: 1, B: 2}];
+	    $httpBackend.expectPOST('/encode/f', pattern).respond(200, '{"url":"http://myserver/abcdefg123"}');
+	    $httpBackend.expectPOST('http://myserver/abcdefg123', [{A: 1, B: 2, _count:1}]).respond(200, '{"status":"OK"}');
+	    cloudlog.addAxioms(pattern, data1);
+	    $httpBackend.flush();
+	    
+	    var data2 = [{A: 2, B: 4}];
+	    $httpBackend.expectPOST('http://myserver/abcdefg123', [{A: 2, B: 4, _count:1}]).respond(200, '{"status":"OK"}');
+	    cloudlog.addAxioms(pattern, data2);
+	    $httpBackend.flush();
+	});
     });
-
 });

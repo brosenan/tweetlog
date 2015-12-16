@@ -7,17 +7,28 @@ angular.module('cloudlog', [
 
     .value('version', '0.1')
     .factory('cloudlog', ['$http', '$log', function($http, $log) {
-	return {
-	    addAxioms: function(pattern, data) {
-		function handleError(resp) {
-		}
+	var encoded = Object.create(null);
+	function encode(pattern, cb, errCb) {
+	    if(pattern in encoded) {
+		cb(encoded[pattern]);
+	    } else {
 		$http({
 		    method: 'POST',
 		    url: '/encode/f',
 		    data: pattern,
 		    headers: {'content-type': 'text/cloudlog'},
 		}).then(function(resp) {
-		    var url = resp.data.url;
+		    encoded[pattern] = resp.data.url;
+		    cb(resp.data.url);
+		}, errCb);
+	    }
+	}
+	return {
+	    addAxioms: function(pattern, data) {
+		function handleError(resp) {
+		}
+		encode(pattern, function(url) {
+		    data.forEach(function(x) { x._count = 1; });
 		    $http({
 			method: 'POST',
 			url: url,
