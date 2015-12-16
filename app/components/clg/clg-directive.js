@@ -2,8 +2,11 @@
 
 angular.module('cloudlog-directive', [])
 
-.directive('clgVersion', ['version', function(version) {
-  return function(scope, elm, attrs) {
-    elm.text(version);
-  };
-}]);
+    .directive('clgNamespace', ['cloudlog', function(cloudlog) {
+	function link(scope, element, attrs) {
+	    cloudlog.defineNamspace(attrs.name, attrs.alias);
+	};
+	return {
+	    link: link,
+	};
+    }]);

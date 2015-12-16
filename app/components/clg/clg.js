@@ -1,11 +1,8 @@
 'use strict';
 
 angular.module('cloudlog', [
-//  'myApp.version.interpolate-filter',
-  'cloudlog-directive'
+    'cloudlog-directive'
 ])
-
-    .value('version', '0.1')
     .factory('cloudlog', ['$http', '$parse', function($http, $parse) {
 	var encoded = Object.create(null);
 	var namespaces = Object.create(null);
