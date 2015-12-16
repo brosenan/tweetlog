@@ -50,6 +50,22 @@ describe('cloudlog module', function() {
 	    $httpBackend.flush();
 	    expect(done).toBe(true);
 	});
+    });
+    describe('.getIndexed(pattern, params, scope, expr, errCb)', function(){
+	it('should perform an indexed query', function(){
+	    var pattern = "bar(X)";
+	    var params = {X: "foo"};
+	    var scope = {};
+	    var expr = "results";
+	    var resp = [{Fact: {name: "foo", args: []}, _count: 1},
+			{Fact: {name: "bar", args: []}, _count: 1}];
+	    $httpBackend.expectPOST('/encode/idx', pattern).respond(200, '{"url":"http://myserver/idx/idxencoded"}');
+	    $httpBackend.expectGET("http://myserver/idx/idxencoded?str-X=foo").respond(200, resp);
+	    cloudlog.getIndexed(pattern, params, scope, expr);
+	    $httpBackend.flush();
+	    expect(scope.results).toEqual(resp);
+	});
 
     });
+
 });
