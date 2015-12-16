@@ -75,6 +75,14 @@ describe('cloudlog module', function() {
 	    $httpBackend.flush();
 	});
 
+	it('should append import-* query params to /idx queries', function(){
+	    cloudlog.defineNamspace('/foo', 'foo');
+	    $httpBackend.expectPOST('/encode/idx', 'somePattern').respond(200, '{"url":"http://myserver/abcdefg123"}');
+	    $httpBackend.expectGET('http://myserver/abcdefg123?import-foo=' + encodeURIComponent('/foo') + "&num-Bar=1&str-Baz=z").respond(200, '[]');
+	    cloudlog.getIndexed('somePattern', {Bar: 1, Baz: 'z'}, {}, 'someField');
+	    $httpBackend.flush();
+	});
+
     });
 
 });

@@ -24,8 +24,8 @@ angular.module('cloudlog', [
 		}, errCb);
 	    }
 	}
-	function calcParams(params) {
-	    var result = Object.create(null);
+	function calcParams(params, result) {
+	    var result = result || Object.create(null);
 	    Object.keys(params).forEach(function(key) {
 		if(typeof params[key] === 'string') {
 		    result['str-' + key] = params[key];
@@ -53,7 +53,7 @@ angular.module('cloudlog', [
 		    $http({
 			mehtod: 'GET',
 			url: url,
-			params: calcParams(params),
+			params: calcParams(params, namespaces),
 		    }).then(function(resp) {
 			setter(scope, resp.data);
 		    }, errCb);
