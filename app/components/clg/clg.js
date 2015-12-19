@@ -73,6 +73,14 @@ angular.module('cloudlog', [
 	    },
 	    defineNamspace: function(name, alias) {
 		namespaces['import-' + alias] = name;
+		Object.keys(concepts).forEach(function(concept) {
+		    var split = concept.split('#');
+		    if(split[0] === alias) {
+			var value = concepts[concept];
+			delete concepts[concept];
+			concepts[name + '#' + split[1]] = value;
+		    }
+		});
 	    },
 	    defineConcept: function(concept, alias) {
 		var m = concept.match(contepRE);

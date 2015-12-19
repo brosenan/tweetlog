@@ -79,6 +79,12 @@ describe('cloudlog module', function() {
 	    cloudlog.getIndexed('somePattern', {Bar: 1, Baz: 'z'}, {}, 'someField');
 	    $httpBackend.flush();
 	});
+	it('should apply namespace to existing concepts if defined after them', function(){
+	    cloudlog.defineConcept("ns:foo(A, B, C)", "foo");
+	    cloudlog.defineNamspace('/ns', 'ns');
+	    expect(cloudlog._concepts['/ns#foo']).toBeDefined();
+	});
+
     });
     describe('.defineConcept(concept, alias)', function(){
 	it('should add a concept to the concept registry', function(){
