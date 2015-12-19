@@ -39,6 +39,15 @@ describe('cloudlog.directive module', function() {
 	    });
 	});
 
+	it('should use the assign attribute to calculate variable assignment', function(){
+	    inject(function($compile, $rootScope) {
+		var $scope = $rootScope.$new();
+		$scope.foo = 3;
+		var element = $compile('<clg-indexed key="myKey(X, Y)" to="results" assign="X:2, Y:foo"/>')($scope);
+		expect(cloudlog.getIndexed.calls.argsFor(0)[1]).toEqual({X: 2, Y: 3});
+	    });
+	});
+
     });
 
 });

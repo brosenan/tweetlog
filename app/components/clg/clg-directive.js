@@ -22,9 +22,13 @@ angular.module('cloudlog-directive', [])
 	};
     }])
 
-    .directive('clgIndexed', ['cloudlog', function(cloudlog) {
+    .directive('clgIndexed', ['cloudlog', '$parse', function(cloudlog, $parse) {
 	function link(scope, element, attrs) {
-	    cloudlog.getIndexed(attrs.key, {}, scope, attrs.to);
+	    var params = {};
+	    if(attrs.assign) {
+		params = $parse('{' + attrs.assign + '}')(scope);
+	    }
+	    cloudlog.getIndexed(attrs.key, params, scope, attrs.to);
 	}
 	return {
 	    restrict: 'E',
