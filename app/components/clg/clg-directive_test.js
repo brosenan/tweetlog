@@ -5,7 +5,7 @@ describe('cloudlog.directive module', function() {
 
     var cloudlog;
     beforeEach(function() {
-	cloudlog = jasmine.createSpyObj('cloudlog', ['defineNamspace', 'defineConcept', 'getIndexed']);
+	cloudlog = jasmine.createSpyObj('cloudlog', ['defineNamspace', 'defineConcept', 'getIndexed', 'addAxioms']);
 	module(function($provide) {
 	    $provide.factory('cloudlog', function() {
 		return cloudlog;
@@ -34,8 +34,8 @@ describe('cloudlog.directive module', function() {
     describe('clg-indexed', function(){
 	it('should call cloudlog.getIndexed()', function(){
 	    inject(function($compile, $rootScope) {
-		var element = $compile('<clg-indexed key="myKey(7)" to="results"/>')($rootScope);
-		expect(cloudlog.getIndexed).toHaveBeenCalledWith('myKey(7)', {}, $rootScope, 'results');
+		var element = $compile('<clg-indexed key="ns:myKey(7)" to="results"/>')($rootScope);
+		expect(cloudlog.getIndexed).toHaveBeenCalledWith('ns:myKey(7)', {}, $rootScope, 'results');
 	    });
 	});
 
@@ -43,11 +43,32 @@ describe('cloudlog.directive module', function() {
 	    inject(function($compile, $rootScope) {
 		var $scope = $rootScope.$new();
 		$scope.foo = 3;
-		var element = $compile('<clg-indexed key="myKey(X, Y)" to="results" assign="X:2, Y:foo"/>')($scope);
+		var element = $compile('<clg-indexed key="ns:myKey(X, Y)" to="results" assign="X:2, Y:foo"/>')($scope);
 		expect(cloudlog.getIndexed.calls.argsFor(0)[1]).toEqual({X: 2, Y: 3});
 	    });
 	});
+    });
+    describe('clg-fact', function(){
+	it('should add a function named add_<name>() that calls cloudlog.addAxioms() to the scope', function(){
+	    inject(function($compile, $rootScope) {
+		var $scope = $rootScope.$new();
+		var element = $compile('<clg-fact pattern="ns:myFact(1, 2, 3)" name="myFact"/>')($scope);
+		expect(typeof $scope.add_myFact).toBe('function');
 
+		$scope.add_myFact();
+		expect(cloudlog.addAxioms).toHaveBeenCalledWith("ns:myFact(1, 2, 3)", [{}]);
+	    });
+	});
+	it('should take the data to be added from the assign attribute', function(){
+	    inject(function($compile, $rootScope) {
+		var $scope = $rootScope.$new();
+		$scope.two = "two";
+		var element = $compile('<clg-fact pattern="ns:myFact(X, Y, Z)" name="myFact" assign="X:1, Y: two, Z: 2+1"/>')($scope);
+
+		$scope.add_myFact();
+		expect(cloudlog.addAxioms.calls.argsFor(0)[1]).toEqual([{X: 1, Y: "two", Z: 3}]);
+	    });
+	});
     });
 
 });

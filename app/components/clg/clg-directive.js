@@ -34,4 +34,19 @@ angular.module('cloudlog-directive', [])
 	    restrict: 'E',
 	    link: link,
 	};
+    }])
+    .directive('clgFact', ['cloudlog', '$parse', function(cloudlog, $parse) {
+	function link(scope, element, attrs) {
+	    scope['add_' + attrs.name] = function() {
+		var params = {};
+		if(attrs.assign) {
+		    params = $parse('{' + attrs.assign + '}')(scope);
+		}
+		cloudlog.addAxioms(attrs.pattern, [params]);
+	    };
+	}
+	return {
+	    restrict: 'E',
+	    link: link,
+	};
     }]);
