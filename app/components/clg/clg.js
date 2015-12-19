@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('cloudlog', [
-    'cloudlog-directive'
+    'cloudlog-directive',
+    'ngRoute',
 ])
     .factory('cloudlog', ['$http', '$parse', function($http, $parse) {
 	var encoded = Object.create(null);
@@ -84,4 +85,7 @@ angular.module('cloudlog', [
 	    },
 	    _concepts: concepts,
 	};
+    }])
+    .controller('CloudlogCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
+	$scope.$routeParams = $routeParams;
     }]);

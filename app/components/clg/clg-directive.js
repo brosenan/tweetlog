@@ -20,4 +20,14 @@ angular.module('cloudlog-directive', [])
 	    restrict: 'E',
 	    link: link,
 	};
+    }])
+
+    .directive('clgIndexed', ['cloudlog', function(cloudlog) {
+	function link(scope, element, attrs) {
+	    cloudlog.getIndexed(attrs.key, {}, scope, attrs.to);
+	}
+	return {
+	    restrict: 'E',
+	    link: link,
+	};
     }]);

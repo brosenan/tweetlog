@@ -6,10 +6,7 @@ describe('cloudlog module', function() {
     var cloudlog;
     beforeEach(inject(function($injector) {
 	$httpBackend = $injector.get('$httpBackend');
-//	encodeF = $httpBackend.when('POST', '/encode/f')
-//            .respond({userId: 'userX'}, {'A-Token': 'xxx'});
 	cloudlog = $injector.get('cloudlog');
-
     }));
 
     afterEach(function() {
@@ -115,6 +112,23 @@ describe('cloudlog module', function() {
 	    expect(scope.results[1].alias).toBe('bar');
 	});
 
+    });
+
+});
+
+describe('CloudlogCtrl', function(){
+    var $controller, $provide;
+    beforeEach(module('cloudlog'));
+    it('should provide the $routeParams in the scope', function(){
+	var scope = {};
+	module(function($provide) {
+	    $provide.value('$routeParams', {foo: 'bar'});
+	});
+	inject(function($controller) {
+	    var ctrl = $controller('CloudlogCtrl', {$scope: scope});
+	    expect(scope.$routeParams).toBeDefined();
+	    expect(scope.$routeParams.foo).toBe('bar');
+	});
     });
 
 });

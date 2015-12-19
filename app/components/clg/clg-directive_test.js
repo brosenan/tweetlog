@@ -5,7 +5,7 @@ describe('cloudlog.directive module', function() {
 
     var cloudlog;
     beforeEach(function() {
-	cloudlog = jasmine.createSpyObj('cloudlog', ['defineNamspace', 'defineConcept']);
+	cloudlog = jasmine.createSpyObj('cloudlog', ['defineNamspace', 'defineConcept', 'getIndexed']);
 	module(function($provide) {
 	    $provide.factory('cloudlog', function() {
 		return cloudlog;
@@ -30,4 +30,15 @@ describe('cloudlog.directive module', function() {
 	    });
 	});
     });
+
+    describe('clg-indexed', function(){
+	it('should call cloudlog.getIndexed()', function(){
+	    inject(function($compile, $rootScope) {
+		var element = $compile('<clg-indexed key="myKey(7)" to="results"/>')($rootScope);
+		expect(cloudlog.getIndexed).toHaveBeenCalledWith('myKey(7)', {}, $rootScope, 'results');
+	    });
+	});
+
+    });
+
 });
