@@ -49,4 +49,13 @@ angular.module('cloudlog-directive', [])
 	    restrict: 'E',
 	    link: link,
 	};
+    }])
+    .directive('clgConcept', ['cloudlog', function(cloudlog) {
+	function link(scope, element, attrs) {
+	    cloudlog.defineConcept(attrs.clgConcept, attrs.id);
+	}
+	return {
+	    restrict: 'A',
+	    link: link,
+	};
     }]);

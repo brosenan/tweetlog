@@ -70,5 +70,14 @@ describe('cloudlog.directive module', function() {
 	    });
 	});
     });
+    describe('clg-concept', function(){
+	it('should use the name of a template as an alias for a concept', function(){
+	    inject(function($compile, $rootScope) {
+		var element = $compile('<script type="ng-template" id="foo-template" clg-concept="foo(A, B, C)">This is a Foo template</script>')($rootScope);
+		expect(cloudlog.defineConcept).toHaveBeenCalledWith('foo(A, B, C)', 'foo-template');
+	    });
+	});
+
+    });
 
 });
