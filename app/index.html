@@ -21,10 +21,20 @@
   <![endif]-->
 
   <clg-namespace name="/tweetlog" alias="t"/>
-  <clg-define concept="t:timeline(User, Tweet)" alias="timelineEntry"/>
-  <clg-define concept="t:tweet(User, Tweet)" alias="tweet"/>
-  <clg-define concept="t:user(User)" alias="user"/>
-  <clg-define concept="t:text(Text)" alias="text"/>
+  <script type="ng-template" id="timelineEntry" clg-concept="t:timeline(User, Tweet)">
+    <clg-apply-template model="Tweet"/>
+  </script>
+  <script type="ng-template" clg-concept="t:tweet(User, Tweet)" id="tweet">
+    <td><clg-apply-template model="User"/></td>
+    <td><clg-apply-template model="Tweet"/></td>
+  </script>
+  <script type="ng-template" clg-concept="t:user(User)" id="user">
+    <span>@<clg-apply-template model="User"/></span>
+  </script>
+  <script type="ng-template" clg-concept="t:text(Text)" id="text">
+    <span><clg-apply-template model="Text"/></span>
+  </script>
+
   <div ng-view></div>
 
   <!-- In production use:

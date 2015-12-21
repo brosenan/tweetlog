@@ -58,4 +58,21 @@ angular.module('cloudlog-directive', [])
 	    restrict: 'A',
 	    link: link,
 	};
+    }])
+    .directive('clgApplyTemplate', ['cloudlog', '$templateCache', '$parse', '$compile', function(cloudlog, $templateCache, $parse, $compile) {
+	function link(scope, element, attrs) {
+	    var term = $parse(attrs.model)(scope);
+	    var concept = cloudlog._concepts[term.name];
+	    // TODO: If concept is undefined
+	    var template = $templateCache.get(concept.alias);
+	    var newScope = scope.$new();
+	    concept.args.forEach(function(arg, i) {
+		newScope[arg] = term.args[i];
+	    });
+	    element.replaceWith($compile(template)(newScope));
+	}
+	return {
+	    restrict: 'E',
+	    link: link,
+	};
     }]);

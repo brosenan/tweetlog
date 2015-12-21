@@ -77,6 +77,26 @@ describe('cloudlog.directive module', function() {
 		expect(cloudlog.defineConcept).toHaveBeenCalledWith('foo(A, B, C)', 'foo-template');
 	    });
 	});
+    });
+    describe('clg-apply-template', function(){
+	it('should expand the template matching the term in the scope', function(){
+	    inject(function($compile, $rootScope, cloudlog, $templateCache) {
+		cloudlog._concepts = {'foo#foo': {alias: 'foo', args: ['X', 'Y']},
+				      'foo#bar': {alias: 'bar', args: ['X', 'Y', 'Z']}};
+		$templateCache.put('foo', 'foo template');
+		$templateCache.put('bar', '<span>{{X}} + {{Y}} = {{Z}}</span>');
+		var scope = $rootScope.$new();
+		scope.term = { name: 'foo#bar', args: [1, 2, 3] };
+		var html = '<div>'
+		    + '<clg-apply-template model="term"/>'
+		    + '</div>';
+		var dom = $compile(html)(scope);
+		scope.$digest();
+		var span = dom.find('span');
+		expect(span.text()).toBe('1 + 2 = 3');
+	    });
+	    
+	});
 
     });
 

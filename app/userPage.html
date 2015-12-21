@@ -14,7 +14,7 @@
 
 <ul>
   <li ng-repeat="entry in timeline">
-    {{entry.Tweet.args[0].args[0]}}: {{entry.Tweet.args[1].args[0]}}
+    <clg-apply-template model="entry"/>
   </li>
 </ul>
 
