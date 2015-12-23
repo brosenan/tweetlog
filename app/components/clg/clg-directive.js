@@ -1,4 +1,5 @@
 'use strict';
+var templateCache = Object.create(null);
 
 angular.module('cloudlog-directive', [])
 
@@ -53,26 +54,41 @@ angular.module('cloudlog-directive', [])
     .directive('clgConcept', ['cloudlog', function(cloudlog) {
 	function link(scope, element, attrs) {
 	    cloudlog.defineConcept(attrs.clgConcept, attrs.id);
+	    templateCache[attrs.id] = element.html();
 	}
 	return {
 	    restrict: 'A',
 	    link: link,
 	};
     }])
-    .directive('clgApplyTemplate', ['cloudlog', '$templateCache', '$parse', '$compile', function(cloudlog, $templateCache, $parse, $compile) {
+    .directive('clgRenderTerm', ['cloudlog', '$templateCache', '$parse', '$compile', function(cloudlog, $templateCache, $parse, $compile) {
 	function link(scope, element, attrs) {
-	    var term = $parse(attrs.model)(scope);
+	    var term = $parse(attrs.clgRenderTerm)(scope);
+	    if(!term) return;
+	    if(!term.name) {
+		console.error('Object ' + JSON.stringify(term) + ' is not a term');
+		return;
+	    }
 	    var concept = cloudlog._concepts[term.name];
-	    // TODO: If concept is undefined
-	    var template = $templateCache.get(concept.alias);
+	    if(!concept) {
+		console.error('Concept ' + term.name + ' is not defined');
+		return;
+	    }
+	    var template = $templateCache.get(concept.alias) || templateCache[concept.alias];
+	    if(!template) {
+		console.error('Concept ' + term.name + ' does not have a template');
+		return;
+	    }
 	    var newScope = scope.$new();
 	    concept.args.forEach(function(arg, i) {
 		newScope[arg] = term.args[i];
 	    });
-	    element.replaceWith($compile(template)(newScope));
+	    var newContent = $compile(template)(newScope);
+	    element.html('<span></span>');
+	    element.find('span').replaceWith(newContent);
 	}
 	return {
-	    restrict: 'E',
+	    restrict: 'A',
 	    link: link,
 	};
     }]);

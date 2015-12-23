@@ -1,7 +1,6 @@
 <div ng-controller="CloudlogCtrl">
 <h2>Greetings, {{$routeParams.user}}!</h2>
 
-<clg-indexed key="t:timelineKey(t:user(User))" to="timeline" assign="User: $routeParams.user"/>
 
 <form>
   <clg-fact pattern="t:tweeted(t:user(User), t:text(Tweet))" name="tweet" assign="User: $routeParams.user, Tweet: text"/>
@@ -12,11 +11,11 @@
   Follow: <input ng-model="followee"> <input type="button" ng-click="add_followee()" value="Send">
 </form>
 
-<ul>
-  <li ng-repeat="entry in timeline">
-    <clg-apply-template model="entry"/>
-  </li>
-</ul>
+<clg-indexed key="t:timelineKey(t:user(User))" to="timeline" assign="User: $routeParams.user"/>
+<table class="timeline">
+  <tr class="timeline-entry" ng-repeat="entry in timeline" clg-render-term="entry.Fact"/>
+  </tr>
+</table>
 
 </div>
 <a href="#/Login">Logout</a>

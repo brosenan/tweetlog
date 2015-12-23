@@ -87,17 +87,13 @@ describe('cloudlog.directive module', function() {
 		$templateCache.put('bar', '<span>{{X}} + {{Y}} = {{Z}}</span>');
 		var scope = $rootScope.$new();
 		scope.term = { name: 'foo#bar', args: [1, 2, 3] };
-		var html = '<div>'
-		    + '<clg-apply-template model="term"/>'
-		    + '</div>';
+		var html = '<div clg-render-term="term">';
 		var dom = $compile(html)(scope);
 		scope.$digest();
 		var span = dom.find('span');
+		expect(span.length).toBe(1);
 		expect(span.text()).toBe('1 + 2 = 3');
 	    });
-	    
 	});
-
     });
-
 });

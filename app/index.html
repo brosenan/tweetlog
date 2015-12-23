@@ -22,17 +22,17 @@
 
   <clg-namespace name="/tweetlog" alias="t"/>
   <script type="ng-template" id="timelineEntry" clg-concept="t:timeline(User, Tweet)">
-    <clg-apply-template model="Tweet"/>
+    <div clg-render-term="Tweet"/>
   </script>
   <script type="ng-template" clg-concept="t:tweet(User, Tweet)" id="tweet">
-    <td><clg-apply-template model="User"/></td>
-    <td><clg-apply-template model="Tweet"/></td>
+    <td clg-render-term="User"></td>
+    <td clg-render-term="Tweet"></td>
   </script>
   <script type="ng-template" clg-concept="t:user(User)" id="user">
-    <span>@<clg-apply-template model="User"/></span>
+    <span><a href="{{'#/userTweets/' + User}}">@{{User}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:text(Text)" id="text">
-    <span><clg-apply-template model="Text"/></span>
+    <span>{{Text}}</span>
   </script>
 
   <div ng-view></div>
