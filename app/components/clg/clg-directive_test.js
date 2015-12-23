@@ -95,5 +95,22 @@ describe('cloudlog.directive module', function() {
 		expect(span.text()).toBe('1 + 2 = 3');
 	    });
 	});
+	it('should render an underlying term if there is no template for this term and the other term is identified as Main', function(){
+	    inject(function($compile, $rootScope, cloudlog, $templateCache) {
+		cloudlog._concepts = {'foo#foo': {alias: 'foo', args: ['X', 'Main']},
+				      'foo#bar': {alias: 'bar', args: ['X', 'Y', 'Z']}};
+		$templateCache.put('bar', '<span>{{X}} + {{Y}} = {{Z}}</span>');
+		var scope = $rootScope.$new();
+		scope.term = { name: 'foo#foo',
+			       args: ['Not this', { name: 'foo#bar', args: [1, 2, 3] }]};
+		var html = '<div clg-render-term="term">';
+		var dom = $compile(html)(scope);
+		scope.$digest();
+		var span = dom.find('span');
+		expect(span.length).toBe(1);
+		expect(span.text()).toBe('1 + 2 = 3');
+	    });
+	});
+
     });
 });

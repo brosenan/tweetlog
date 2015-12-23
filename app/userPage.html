@@ -13,6 +13,7 @@
 
 <clg-indexed key="t:timelineKey(t:user(User))" to="timeline" assign="User: $routeParams.user"/>
 <table class="timeline">
+  <tr><th>User</th><th>Tweet</th></tr>
   <tr class="timeline-entry" ng-repeat="entry in timeline" clg-render-term="entry.Fact"/>
   </tr>
 </table>
