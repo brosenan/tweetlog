@@ -20,10 +20,8 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <clg-namespace name="/tweetlog" alias="t"/>
-  <script type="ng-template" id="timelineEntry" clg-concept="t:timeline(User, Tweet)">
-    <div clg-render-term="Tweet"/>
-  </script>
+  <clg-namespace name="/tweetlog" alias="t"></clg-namespace>
+  <clg-define concept="t:timeline(User, Main)"></clg-define>
   <script type="ng-template" clg-concept="t:tweet(User, Tweet)" id="tweet">
     <td clg-render-term="User"></td>
     <td clg-render-term="Tweet"></td>
