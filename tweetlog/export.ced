@@ -1,1 +1,1 @@
-'/bootstrap':export(!'git/tweetlog/tweetlog/tweetlog.cedimg').
+'/bootstrap':export(!'git/tweetlog/app/tweetlog.cedimg').
