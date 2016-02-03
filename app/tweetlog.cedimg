@@ -4690,7 +4690,7 @@ rem(:-('/bootstrap#check'(A,::(B,'/bootstrap#statement'),C,'/bootstrap#marker'(A
 '/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,'/tweetlog#text'(B)),','('/tweetlog#parseTweet'(B,C),'/bootstrap#listMember'('/tweetlog#hashtag'(D),'/parsing#token'('/tweetlog#tweetCtx'),C)),'/cloudlog#clause'('/tweetlog#hashtagTweet'(D,'/tweetlog#tweeted'(A,'/tweetlog#text'(B))),'/cloudlog#true'))).
 :-('builtin#loadedStatement'(!('/home/cedalion/git/tweetlog/tweetlog/export.ced'),'/bootstrap#export'(!('git/tweetlog/app/tweetlog.cedimg')),[]),'builtin#true').
 '/bootstrap#export'(!('git/tweetlog/app/tweetlog.cedimg')).
-:-('builtin#loadedStatement'(!('/home/cedalion/git/tweetlog/tweetlog/export.ced'),'/bootstrap#signature'(::('/tweetlog#isUser'(A),'/cloudlog#pred'),'.'(::(A,'/tweetlog#user'),[])),'.'('builtin#varName'(::(A,B),!('User')),[])),'builtin#true').
-'/bootstrap#signature'(::('/tweetlog#isUser'(A),'/cloudlog#pred'),'.'(::(A,'/tweetlog#user'),[])).
-:-('builtin#loadedStatement'(!('/home/cedalion/git/tweetlog/tweetlog/export.ced'),'/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,B),'/tweetlog#isUser'(A))),'.'('builtin#varName'(::(A,C),!('User')),[])),'builtin#true').
-'/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,B),'/tweetlog#isUser'(A))).
+:-('builtin#loadedStatement'(!('/home/cedalion/git/tweetlog/tweetlog/export.ced'),'/bootstrap#signature'(::('/tweetlog#isUser'(A,B),'/cloudlog#pred'),'.'(::(A,'/bootstrap#number'),'.'(::(B,'/tweetlog#user'),[]))),'.'('builtin#varName'(::(A,C),!('One')),'.'('builtin#varName'(::(B,D),!('User')),[]))),'builtin#true').
+'/bootstrap#signature'(::('/tweetlog#isUser'(A,B),'/cloudlog#pred'),'.'(::(A,'/bootstrap#number'),'.'(::(B,'/tweetlog#user'),[]))).
+:-('builtin#loadedStatement'(!('/home/cedalion/git/tweetlog/tweetlog/export.ced'),'/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,B),'/cloudlog#clause'('/tweetlog#isUser'(1,A),'/cloudlog#true'))),'.'('builtin#varName'(::(A,C),!('User')),[])),'builtin#true').
+'/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,B),'/cloudlog#clause'('/tweetlog#isUser'(1,A),'/cloudlog#true'))).
