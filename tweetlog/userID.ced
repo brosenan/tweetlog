@@ -1,0 +1,4 @@
+'/bootstrap':signature(userID(User)::'/parsing':token(tweetCtx),[User::'/bootstrap':string]).
+'/bootstrap':projection(userID(User)::'/parsing':token(tweetCtx),'/bootstrap':horiz(['/bootstrap':label(! (@)),'/bootstrap':vis(User::'/bootstrap':string)])).
+'/util':behavior(userID(User)::'/parsing':token(tweetCtx),!'should parse @userids', ('/parsing':parseString('/parsing':tokens(List,tweetCtx),!'I am @boaz @rosenan'),'/util':assertEqual(List,[word(!'I'),word(!am),userID(!boaz),userID(!rosenan)],'/bootstrap':list('/parsing':token(tweetCtx))))).
+'/parsing':prod('/parsing':token(userID(User),tweetCtx),'/bootstrap':number,'/parsing':follow('/parsing':char(! (@)),'/parsing':follow(annotation:parentheses('/parsing':bind('/parsing':oneOrMoreMax('/parsing':not(!' ')),Codes)),'/parsing':pred(builtin:charCodes(User,Codes))))).
