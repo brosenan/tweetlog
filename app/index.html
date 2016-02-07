@@ -53,12 +53,10 @@
   
   <clg-namespace name="/tweetlog" alias="t"></clg-namespace>
   <clg-define concept="t:timeline(User, Main)"></clg-define>
-  <script type="ng-template" clg-concept="t:tweet(User, Tweet)" id="tweet">
+  <script type="ng-template" clg-concept="t:tweet(User, Time, Tweet)" id="tweet">
+    <td>{{Time | date}}</td>
     <td clg-render-term="User"></td>
     <td clg-render-term="Tweet"></td>
-  </script>
-  <script type="ng-template" clg-concept="t:parsedTweet(List)" id="tweet">
-    <p clg-render-term="List"></p>
   </script>
   <script type="ng-template" clg-concept="t:user(User)" id="user">
     <span><a href="{{'#/userTweets/' + User}}">@{{User}}</a></span>
@@ -66,12 +64,24 @@
   <script type="ng-template" clg-concept="t:text(Text)" id="text">
     <span>{{Text}}</span>
   </script>
-  <script type="ng-template" clg-concept=".(Item,Next)" id="tweet">
+  <script type="ng-template" clg-concept="t:parsedTweet(List)" id="parsedTweet">
+    <span clg-render-term="List"></span>
+  </script>
+  <script type="ng-template" clg-concept=".(Item,Next)" id="listElem">
     <span clg-render-term="Item"></span>
     <span clg-render-term="Next"></span>
   </script>
-  <script type="ng-template" clg-concept="t:word(Word)" id="tweet">
-    {{Word}}
+  <script type="ng-template" clg-concept="[]()" id="emptyList">
+    <!-- empty -->
+  </script>
+  <script type="ng-template" clg-concept="t:word(Word)" id="word">
+    <span>{{Word}}</span>
+  </script>
+  <script type="ng-template" clg-concept="t:userID(User)" id="userID">
+    <span><a href="{{'#/userTweets/' + User}}">@{{User}}</a></span>
+  </script>
+  <script type="ng-template" clg-concept="t:hashtag(Tag)" id="hashtag">
+    <span><a href="{{'#/hashtag/' + Tag}}">#{{Tag}}</a></span>
   </script>
 
   <div ng-view></div>

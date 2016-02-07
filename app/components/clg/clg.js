@@ -104,4 +104,5 @@ angular.module('cloudlog', [
     }])
     .controller('CloudlogCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
 	$scope.$routeParams = $routeParams;
+	$scope.now = function() { return (new Date()).getTime(); };
     }]);

@@ -141,5 +141,18 @@ describe('CloudlogCtrl', function(){
 	    expect(scope.$routeParams.foo).toBe('bar');
 	});
     });
+    describe('.now()', function(){
+	it('should return the current time in milliseconds', function(){
+	var scope = {};
+	    inject(function($controller) {
+		var ctrl = $controller('CloudlogCtrl', {$scope: scope});
+		expect(scope.now).toBeDefined();
+		var time = scope.now();
+		expect(time).toBeDefined();
+		expect(Math.abs(time - (new Date()).getTime())).toBeLessThan(2);
+	    });
+	});
+
+    });
 
 });
