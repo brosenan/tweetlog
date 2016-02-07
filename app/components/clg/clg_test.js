@@ -98,6 +98,11 @@ describe('cloudlog module', function() {
 	    cloudlog.defineConcept("ns:foo(A, B, C)", "foo");
 	    expect(cloudlog._concepts['/myNamespace#foo']).toBeDefined();
 	});
+	it('should support concepts without namespace', function(){
+	    cloudlog.defineConcept("!@(A, B, C)", "foo");
+	    expect(cloudlog._concepts['!@']).toBeDefined();
+	});
+
 	it('should decorate matching index results with the variables in the concept bound to their respective values', function(){
 	    var results = [
 		{Fact: {name: 'ns#foo', args: [1, 2]}, _count: 1},

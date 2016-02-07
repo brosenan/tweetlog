@@ -8,7 +8,7 @@ angular.module('cloudlog', [
 	var encoded = Object.create(null);
 	var namespaces = Object.create(null);
 	var concepts = Object.create(null);
-	var contepRE = /([a-zA-Z_]+):([a-zA-Z_]+)\((.*)\)/;
+	var contepRE = /(([a-zA-Z_]+):)?(.+)\((.*)\)/;
 	function encode(pattern, path, cb, errCb) {
 	    if(pattern in encoded) {
 		cb(encoded[pattern]);
@@ -84,12 +84,20 @@ angular.module('cloudlog', [
 	    },
 	    defineConcept: function(concept, alias) {
 		var m = concept.match(contepRE);
-		var args = m[3]
+		if(!m) {
+		    throw Error("Invalid concept: " + concept);
+		}
+		var args = m[4]
 		    .split(',')
 		    .map(function(s) { return s.trim(); });
-		var ns = namespaces['import-' + m[1]] || m[1];
-		concepts[ns + '#' + m[2]] = {alias: alias,
-					       args: args};
+		if(m[2]) {
+		    var ns = namespaces['import-' + m[2]] || m[2];
+		    concepts[ns + '#' + m[3]] = {alias: alias,
+						 args: args};
+		} else {
+		    concepts[m[3]] = {alias: alias,
+				      args: args};
+		}
 	    },
 	    _concepts: concepts,
 	};

@@ -6,13 +6,25 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>My AngularJS App</title>
+  <title>Tweetlog</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="app.css">
-  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+    .sidebar {
+    position: fixed;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 4em;
+    }
+    .main {
+	margin-top: 4em;
+    }
+  </style>
 </head>
 <body>
 
@@ -20,17 +32,46 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <a class="navbar-brand" href="#">Tweetlog</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <form class="navbar-form navbar-right" action="{{'#/user/' + userName}}">
+          <div class="form-group">
+            <input type="text" placeholder="User Name" ng-model="userName" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-success">Sign in</button>
+        </form>
+      </div><!--/.navbar-collapse -->
+    </div>
+  </nav>
+  
   <clg-namespace name="/tweetlog" alias="t"></clg-namespace>
   <clg-define concept="t:timeline(User, Main)"></clg-define>
   <script type="ng-template" clg-concept="t:tweet(User, Tweet)" id="tweet">
     <td clg-render-term="User"></td>
     <td clg-render-term="Tweet"></td>
   </script>
+  <script type="ng-template" clg-concept="t:parsedTweet(List)" id="tweet">
+    <p clg-render-term="List"></p>
+  </script>
   <script type="ng-template" clg-concept="t:user(User)" id="user">
     <span><a href="{{'#/userTweets/' + User}}">@{{User}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:text(Text)" id="text">
     <span>{{Text}}</span>
+  </script>
+  <script type="ng-template" clg-concept=".(Item,Next)" id="tweet">
+    <span clg-render-term="Item"></span>
+    <span clg-render-term="Next"></span>
+  </script>
+  <script type="ng-template" clg-concept="t:word(Word)" id="tweet">
+    {{Word}}
   </script>
 
   <div ng-view></div>
@@ -40,9 +81,6 @@
   -->
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
-  <!--script src="app.js"></script>
-  <script src="view1/view1.js"></script>
-  <script src="view2/view2.js"></script-->
   <script src="components/clg/clg.js"></script>
   <script src="components/clg/clg-directive.js"></script>
   <script language="javascript">
@@ -56,13 +94,21 @@
 		templateUrl: 'userPage.html',
 		controller: 'CloudlogCtrl'
 	    })
-	    .when('/login', {
-		templateUrl: 'login.html',
+	    .when('/welcome', {
+		templateUrl: 'welcome.html',
 		controller: 'CloudlogCtrl'
 	    })
-	    .otherwise({redirectTo: '/login'});
+	    .when('/learnMore', {
+		templateUrl: 'learnMore.html',
+		controller: 'CloudlogCtrl'
+	    })
+	    .otherwise({redirectTo: '/welcome'});
     }]);
     
   </script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
