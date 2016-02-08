@@ -21,7 +21,7 @@
   </div>
   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <form class="col-md-6">
-      <clg-fact pattern="t:tweeted(t:user(User), Time, t:text(Tweet))" name="tweet" assign="User: $routeParams.user, Tweet: text, Time: (new Date()).getTime()"></clg-fact>
+      <clg-fact pattern="t:tweeted(t:user(User), Time, t:text(Tweet))" name="tweet" assign="User: $routeParams.user, Tweet: text, Time: now()"></clg-fact>
       <div class="form-group col-md-10">
 	<input type="text" placeholder="Share something..." ng-model="text" class="form-control">
       </div>
@@ -46,7 +46,7 @@
 	  </tr>
 	</thead>
 	<tbody>
-	  <tr class="timeline-entry" ng-repeat="entry in timeline" clg-render-term="entry.Fact.args[1]">
+	  <tr class="timeline-entry" ng-repeat="entry in timeline | orderBy: entry.Fact.args[1].args[1]:true" clg-render-term="entry.Fact.args[1]">
 	  </tr>
 	</tbody>
       </table>

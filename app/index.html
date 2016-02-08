@@ -54,7 +54,7 @@
   <clg-namespace name="/tweetlog" alias="t"></clg-namespace>
   <clg-define concept="t:timeline(User, Main)"></clg-define>
   <script type="ng-template" clg-concept="t:tweet(User, Time, Tweet)" id="tweet">
-    <td>{{Time | date}}</td>
+    <td>{{Time | date: 'EEEE, MMM d, yyyy, H:mm'}}</td>
     <td clg-render-term="User"></td>
     <td clg-render-term="Tweet"></td>
   </script>
@@ -86,11 +86,10 @@
 
   <div ng-view></div>
 
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
+  <!--script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/angular-moment/angular-moment.js"></script-->
   <script src="components/clg/clg.js"></script>
   <script src="components/clg/clg-directive.js"></script>
   <script language="javascript">
