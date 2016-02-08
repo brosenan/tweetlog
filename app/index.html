@@ -6,13 +6,14 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Tweetlog</title>
+  <title>TweetLog</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="app.css">
-  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!--link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"-->
+  <link href="https://bootswatch.com/spacelab/bootstrap.min.css" rel="stylesheet">
   <style type="text/css">
     .sidebar {
     position: fixed;
@@ -38,7 +39,7 @@
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
         </button>
-        <a class="navbar-brand" href="#">Tweetlog</a>
+        <a class="navbar-brand" href="#">Tweet<span style="font-variant: small-caps;">l</span>og</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <form class="navbar-form navbar-right" action="{{'#/user/' + userName}}">
@@ -59,7 +60,7 @@
     <td clg-render-term="Tweet"></td>
   </script>
   <script type="ng-template" clg-concept="t:user(User)" id="user">
-    <span><a href="{{'#/userTweets/' + User}}">@{{User}}</a></span>
+    <span><a href="{{'#/userTweets/' + $routeParams.user + '/' + User}}">@{{User}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:text(Text)" id="text">
     <span>{{Text}}</span>
@@ -78,7 +79,7 @@
     <span>{{Word}}</span>
   </script>
   <script type="ng-template" clg-concept="t:userID(User)" id="userID">
-    <span><a href="{{'#/userTweets/' + User}}">@{{User}}</a></span>
+    <span><a href="{{'#/userTweets/' + $routeParams.user + '/' + User}}">@{{User}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:hashtag(Tag)" id="hashtag">
     <span><a href="{{'#/hashtag/' + Tag}}">#{{Tag}}</a></span>
@@ -112,6 +113,11 @@
 		controller: 'CloudlogCtrl'
 	    })
 	    .otherwise({redirectTo: '/welcome'});
+    }])
+    .directive('tweetlogSidebar', [function() {
+	return {
+	    templateUrl: 'sidebar.html',
+	};
     }]);
     
   </script>
