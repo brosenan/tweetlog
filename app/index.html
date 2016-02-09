@@ -42,7 +42,7 @@
         <a class="navbar-brand" href="#">Tweet<span style="font-variant: small-caps;">l</span>og</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-        <form class="navbar-form navbar-right" action="{{'#/user/' + userName}}">
+        <form class="navbar-form navbar-right" action="{{'#/timeline/' + userName}}">
           <div class="form-group">
             <input type="text" placeholder="User Name" ng-model="userName" class="form-control">
           </div>
@@ -100,8 +100,8 @@
     ])
     .config(['$routeProvider', function($routeProvider) {
 	$routeProvider
-	    .when('/user/:user', {
-		templateUrl: 'userPage.html',
+	    .when('/timeline/:user', {
+		templateUrl: 'timeline.html',
 		controller: 'CloudlogCtrl'
 	    })
 	    .when('/welcome', {
