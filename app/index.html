@@ -82,7 +82,7 @@
     <span><a href="{{'#/userTweets/' + $routeParams.user + '/' + User}}">@{{User}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:hashtag(Tag)" id="hashtag">
-    <span><a href="{{'#/hashtag/' + Tag}}">#{{Tag}}</a></span>
+    <span><a href="{{'#/hashtag/' + $routeParams.user + '/' + Tag}}">#{{Tag}}</a></span>
   </script>
 
   <div ng-view></div>
@@ -117,6 +117,17 @@
     .directive('tweetlogSidebar', [function() {
 	return {
 	    templateUrl: 'sidebar.html',
+	};
+    }])
+    .directive('tweetTable', ['$parse', function($parse) {
+	return {
+	    templateUrl: 'tweetTable.html',
+	    link: function(scope, elem, attr) {
+		console.log(1);
+		scope.data = $parse(attr.tweetTable)(scope);
+		console.log(attr.tweetTable);
+		console.log('timeline' in scope);
+	    },
 	};
     }]);
     

@@ -59,8 +59,11 @@ describe('cloudlog module', function() {
 	    $httpBackend.expectPOST('/encode/idx', pattern).respond(200, '{"url":"http://myserver/idx/idxencoded"}');
 	    $httpBackend.expectGET("http://myserver/idx/idxencoded?num-Y=2&str-X=foo").respond(200, resp);
 	    cloudlog.getIndexed(pattern, params, scope, expr);
+	    expect(scope.results).toEqual([]);
+	    var resultsInstance = scope.results;
 	    $httpBackend.flush();
 	    expect(scope.results).toEqual(resp);
+	    expect(scope.results).toBe(resultsInstance);
 	});
     });
     describe('.defineNamspace(name, alias)', function(){

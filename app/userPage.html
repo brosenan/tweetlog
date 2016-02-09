@@ -17,20 +17,7 @@
     </form>
     <h2 class="sub-header">{{$routeParams.user}}'s Timeline</h2>
     <clg-indexed key="t:timelineKey(t:user(User))" to="timeline" assign="User: $routeParams.user"></clg-indexed>
-    <div class="table-responsive">
-      <table class="table table-striped">
-	<thead>
-	  <tr>
-            <th>When?</th>
-            <th>Who?</th>
-            <th>What?</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  <tr class="timeline-entry" ng-repeat="entry in timeline | orderBy: entry.Fact.args[1].args[1]:true" clg-render-term="entry.Fact.args[1]">
-	  </tr>
-	</tbody>
-      </table>
+    <div class="table-responsive" tweet-table="timeline">
     </div>
   </div>
 </div>

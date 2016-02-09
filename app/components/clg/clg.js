@@ -61,13 +61,16 @@ angular.module('cloudlog', [
 	    },
 	    getIndexed: function(pattern, params, scope, expr, errCb) {
 		var setter = $parse(expr).assign;
+		var data = [];
+		setter(scope, data);
 		encode(pattern, '/idx', function(url) {
 		    $http({
 			mehtod: 'GET',
 			url: url,
 			params: calcParams(params, namespaces),
 		    }).then(function(resp) {
-			setter(scope, addConceptValues(resp.data));
+			addConceptValues(resp.data);
+			[].splice.apply(data, [0, 0].concat(resp.data));
 		    }, errCb);
 		});
 	    },
