@@ -67,7 +67,7 @@ angular.module('cloudlog', [
 		    $http({
 			mehtod: 'GET',
 			url: url,
-			params: calcParams(params, namespaces),
+			params: calcParams(params, JSON.parse(JSON.stringify(namespaces))),
 		    }).then(function(resp) {
 			addConceptValues(resp.data);
 			[].splice.apply(data, [0, 0].concat(resp.data));

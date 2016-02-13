@@ -53,11 +53,16 @@
   </nav>
   
   <clg-namespace name="/tweetlog" alias="t"></clg-namespace>
-  <clg-define concept="t:timeline(User, Main)"></clg-define>
-  <script type="ng-template" clg-concept="t:tweet(User, Time, Tweet)" id="tweet">
+  <script type="ng-template" clg-concept="t:timeline(User, Time, Main)" id="timeline">
     <td>{{Time | date: 'EEEE, MMM d, yyyy, H:mm'}}</td>
-    <td clg-render-term="User"></td>
-    <td clg-render-term="Tweet"></td>
+    <td clg-render-term="Main"></td>
+  </script>
+  <script type="ng-template" clg-concept="t:tweeted(User, Time, Tweet)" id="tweeted">
+    <td>{{Time | date: 'EEEE, MMM d, yyyy, H:mm'}}</td>
+    <td ><span clg-render-term="User"></span>: <span clg-render-term="Tweet"></span></td>
+  </script>
+  <script type="ng-template" clg-concept="t:tweet(User, Tweet)" id="tweet">
+    <span clg-render-term="User"></span>: <span clg-render-term="Tweet"></span>
   </script>
   <script type="ng-template" clg-concept="t:user(User)" id="user">
     <span><a href="{{'#/userTweets/' + $routeParams.user + '/' + User}}">@{{User}}</a></span>
@@ -83,6 +88,12 @@
   </script>
   <script type="ng-template" clg-concept="t:hashtag(Tag)" id="hashtag">
     <span><a href="{{'#/hashtag/' + $routeParams.user + '/' + Tag}}">#{{Tag}}</a></span>
+  </script>
+  <script type="ng-template" clg-concept="t:followingYou(User)" id="followingYou">
+    <span><span clg-render-term="User"></span> is following you</span>
+  </script>
+  <script type="ng-template" clg-concept="t:youFollow(User)" id="youFollow">
+    <span>You are following <span clg-render-term="User"></span></span>
   </script>
 
   <div ng-view></div>
@@ -112,6 +123,10 @@
 		templateUrl: 'learnMore.html',
 		controller: 'CloudlogCtrl'
 	    })
+	    .when('/hashtag/:user/:tag', {
+		templateUrl: 'hashtag.html',
+		controller: 'CloudlogCtrl'
+	    })
 	    .otherwise({redirectTo: '/welcome'});
     }])
     .directive('tweetlogSidebar', [function() {
@@ -123,10 +138,7 @@
 	return {
 	    templateUrl: 'tweetTable.html',
 	    link: function(scope, elem, attr) {
-		console.log(1);
 		scope.data = $parse(attr.tweetTable)(scope);
-		console.log(attr.tweetTable);
-		console.log('timeline' in scope);
 	    },
 	};
     }]);

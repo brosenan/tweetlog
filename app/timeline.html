@@ -9,7 +9,7 @@
       <input type="submit" class="btn btn-info col-md-2" ng-click="add_tweet(); text = ''" value="Share!">
     </form>
     <form class="col-md-6">
-      <clg-fact pattern="t:follows(t:user(User), t:user(Followee))" name="followee" assign="User: $routeParams.user, Followee: followee"></clg-fact>
+      <clg-fact pattern="t:follows(t:user(User), t:user(Followee), Time)" name="followee" assign="User: $routeParams.user, Followee: followee, Time: now()"></clg-fact>
       <div class="form-group col-md-10">
 	<input type="text" placeholder="Follow someone..." ng-model="followee" class="form-control">
       </div>
