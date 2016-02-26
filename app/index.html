@@ -127,6 +127,10 @@
 		templateUrl: 'hashtag.html',
 		controller: 'CloudlogCtrl'
 	    })
+	    .when('/userTweets/:user/:author', {
+		templateUrl: 'userTweets.html',
+		controller: 'CloudlogCtrl'
+	    })
 	    .otherwise({redirectTo: '/welcome'});
     }])
     .directive('tweetlogSidebar', [function() {

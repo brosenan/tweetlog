@@ -74,6 +74,21 @@ angular.module('cloudlog', [
 		    }, errCb);
 		});
 	    },
+	    query: function(pattern, params, scope, expr, errCb) {
+		var setter = $parse(expr).assign;
+		var data = [];
+		setter(scope, data);
+		encode(pattern, '/q', function(url) {
+		    $http({
+			mehtod: 'GET',
+			url: url,
+			params: calcParams(params, JSON.parse(JSON.stringify(namespaces))),
+		    }).then(function(resp) {
+			//addConceptValues(resp.data);
+			[].splice.apply(data, [0, 0].concat(resp.data));
+		    }, errCb);
+		});
+	    },
 	    defineNamspace: function(name, alias) {
 		namespaces['import-' + alias] = name;
 		Object.keys(concepts).forEach(function(concept) {

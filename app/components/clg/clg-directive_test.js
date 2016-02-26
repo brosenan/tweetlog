@@ -5,7 +5,7 @@ describe('cloudlog.directive module', function() {
 
     var cloudlog;
     beforeEach(function() {
-	cloudlog = jasmine.createSpyObj('cloudlog', ['defineNamspace', 'defineConcept', 'getIndexed', 'addAxioms']);
+	cloudlog = jasmine.createSpyObj('cloudlog', ['defineNamspace', 'defineConcept', 'getIndexed', 'addAxioms', 'query']);
 	module(function($provide) {
 	    $provide.factory('cloudlog', function() {
 		return cloudlog;
@@ -48,6 +48,15 @@ describe('cloudlog.directive module', function() {
 	    });
 	});
     });
+    describe('clg-query', function(){
+	it('should call cloudlog.query()', function(){
+	    inject(function($compile, $rootScope) {
+		var element = $compile('<clg-query goal="ns:myGoal(X, Y)" to="results" assign="X:3"/>')($rootScope);
+		expect(cloudlog.query).toHaveBeenCalledWith('ns:myGoal(X, Y)', {X:3}, $rootScope, 'results');
+	    });
+	});
+    });
+
     describe('clg-fact', function(){
 	it('should add a function named add_<name>() that calls cloudlog.addAxioms() to the scope', function(){
 	    inject(function($compile, $rootScope) {
