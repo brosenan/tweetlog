@@ -1,0 +1,6 @@
+'/bootstrap':signature(followee(U1,U2)::'/cloudlog':pred,[U1::user,U2::user]).
+'/bootstrap':projection(followee(U1,U2)::'/cloudlog':pred,'/bootstrap':horiz(['/bootstrap':vis(U2::user),'/bootstrap':label(!'is a followee of'),'/bootstrap':vis(U1::user)])).
+'/util':behavior(followee(U1,U2)::'/cloudlog':pred,!'should succeed for each followee U2 of U1', ('/cloudlog':withSimulate([follows(user(!alice),user(!bob),1000)],followee(user(!alice),Bob)),'/util':assertEqual(Bob,user(!bob),user))).
+'/cloudlog':axiom('/cloudlog':rule(follows(A,B,Time),Time>0,'/cloudlog':clause(followee(A,B),'/cloudlog':true))).
+'/bootstrap':signature(followers(User)::'/cl1':key,[User::user]).
+'/util':behavior(followers(User)::'/cl1':key,!'should list all followers of User exclusiding himself',_).

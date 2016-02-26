@@ -1,0 +1,9 @@
+'/bootstrap':signature(procTweet(User,Time,Tweet)::'/cloudlog':axiom,[User::user,Time::'/bootstrap':number,Tweet::tweet]).
+'/bootstrap':signature(procTweetKey(User)::'/cl1':key,[User::user]).
+'/bootstrap':signature(tokenized(Tokens)::text,[Tokens::'/bootstrap':list('/parsing':token(tweetCtx))]).
+'/util':behavior(procTweet(User,Time,Tweet)::'/cloudlog':axiom,!'should hold a tokenized tweet for all raw tweet', ('/cloudlog':withSimulate([tweeted(user(!alice),1000,text(rawText(!'foo #bar')))],'/cl1':indexed(procTweetKey(user(!alice)),procTweet(user(!alice),1000,T))),'/util':assertEqual(T,text(tokenized([word(!foo),hashtag(!bar)])),tweet))).
+'/cloudlog':axiom(cloudlog:index(procTweetKey(User),procTweet(User,Time,Tweet))).
+'/cloudlog':axiom('/cloudlog':rule(tweeted(U,Tau,T), (textIn(T,rawText(Text)),'/parsing':parseString('/parsing':tokens(X,tweetCtx),Text),textIn(TPrime,tokenized(X))),procTweet(U,Tau,TPrime))).
+'/bootstrap':signature(textIn(Tweet,Text)::'/bootstrap':pred,[Tweet::tweet,Text::text]).
+'/bootstrap':projection(textIn(Tweet,Text)::'/bootstrap':pred,'/bootstrap':horiz(['/bootstrap':vis(Text::text),'/bootstrap':label(!'is the text in'),'/bootstrap':vis(Tweet::tweet)])).
+textIn(text(Text),Text):-builtin:true.

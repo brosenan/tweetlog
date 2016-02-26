@@ -1,0 +1,7 @@
+'/bootstrap':signature(searchIndex(Token,Time,User,Tweet)::'/cloudlog':axiom,[Token::'/parsing':token(tweetCtx),Time::'/bootstrap':number,User::user,Tweet::tweet]).
+'/util':behavior(searchIndex(Token,Time,User,Tweet)::'/cloudlog':axiom,!'should index a tweet by its tokens', ('/cloudlog':withSimulate([procTweet(user(!alice),1000,text(tokenized([word(!hello),userID(!bob)])))],'/cl1':indexed(searchIndexKey(userID(!bob)),searchIndex(userID(!bob),1000,user(!alice),Tweet))),'/util':assertEqual(Tweet,text(tokenized([word(!hello),userID(!bob)])),tweet))).
+'/bootstrap':signature(searchIndexKey(Token)::'/cl1':key,[Token::'/parsing':token(tweetCtx)]).
+'/cloudlog':axiom(cloudlog:index(searchIndexKey(Token),searchIndex(Token,Time,User,Tweet))).
+'/cloudlog':axiom(annotation:shrink('/cloudlog':rule(procTweet(User,Time,Tweet), (textIn(Tweet,tokenized(Tokens)),'/bootstrap':listMember(Token,'/parsing':token(tweetCtx),Tokens)),searchIndex(Token,Time,User,Tweet)))).
+'/util':behavior(searchIndex(Token,Time,User,Tweet)::'/cloudlog':axiom,!'should index tweets based on their authors', ('/cloudlog':withSimulate([procTweet(user(!alice),1000,text(tokenized([word(!hello),userID(!bob)])))],'/cl1':indexed(searchIndexKey(userID(!alice)),searchIndex(userID(!alice),1000,user(!alice),Tweet))),'/util':assertEqual(Tweet,text(tokenized([word(!hello),userID(!bob)])),tweet))).
+'/cloudlog':axiom('/cloudlog':rule(procTweet(user(U),Time,Tweet),searchIndex(userID(U),Time,user(U),Tweet))).
