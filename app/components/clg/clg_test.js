@@ -66,6 +66,26 @@ describe('cloudlog module', function() {
 	    expect(scope.results).toBe(resultsInstance);
 	});
     });
+    describe('.query(pattern, params, scope, expr, errCb)', function(){
+	it('should perform a query', function(){
+	    var pattern = "bar(X, Y)";
+	    var params = {X: "foo", Z: 2};
+	    var scope = {};
+	    var expr = "results";
+	    var resp = [{Y: 1, _count: 1},
+			{Y: 2, _count: 1}];
+	    $httpBackend.expectPOST('/encode/q', pattern).respond(200, '{"url":"http://myserver/q/querycoded"}');
+	    $httpBackend.expectGET("http://myserver/q/querycoded?num-Z=2&str-X=foo").respond(200, resp);
+	    cloudlog.query(pattern, params, scope, expr);
+	    expect(scope.results).toEqual([]);
+	    var resultsInstance = scope.results;
+	    $httpBackend.flush();
+	    expect(scope.results).toEqual(resp);
+	    expect(scope.results).toBe(resultsInstance);
+	});
+
+    });
+
     describe('.defineNamspace(name, alias)', function(){
 	it('should append import-* query params to /f queries', function(){
 	    cloudlog.defineNamspace('/foo', 'foo');

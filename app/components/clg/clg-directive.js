@@ -36,6 +36,19 @@ angular.module('cloudlog-directive', [])
 	    link: link,
 	};
     }])
+    .directive('clgQuery', ['cloudlog', '$parse', function(cloudlog, $parse) {
+	function link(scope, element, attrs) {
+	    var params = {};
+	    if(attrs.assign) {
+		params = $parse('{' + attrs.assign + '}')(scope);
+	    }
+	    cloudlog.query(attrs.goal, params, scope, attrs.to);
+	}
+	return {
+	    restrict: 'E',
+	    link: link,
+	};
+    }])
     .directive('clgFact', ['cloudlog', '$parse', function(cloudlog, $parse) {
 	function link(scope, element, attrs) {
 	    scope['add_' + attrs.name] = function() {
