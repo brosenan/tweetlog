@@ -1,22 +1,19 @@
 '/bootstrap':defAtom(user::'/bootstrap':type).
 '/bootstrap':defAtom(timelineElem::'/bootstrap':type).
-'/bootstrap':signature(timeline(User,Time,Elem)::'/cloudlog':axiom,[User::user,Time::'/bootstrap':number,Elem::timelineElem]).
-'/bootstrap':signature(timelineKey(User)::'/cl1':key,[User::user]).
+'/bootstrap':signature(timeline(User,Time,Elem)::'/cloudlog':pred,[User::user,Time::'/bootstrap':number,Elem::timelineElem]).
 '/bootstrap':signature(user(Name)::user,[Name::'/bootstrap':string]).
 '/bootstrap':projection(user(Name)::user,'/bootstrap':horiz(['/bootstrap':label(! (@)),'/bootstrap':vis(Name::'/bootstrap':string)])).
 '/bootstrap':signature(follows(A,B,Time)::'/cloudlog':axiom,[A::user,B::user,Time::'/bootstrap':number]).
 '/bootstrap':projection(follows(A,B,Time)::'/cloudlog':axiom,'/bootstrap':horiz(['/bootstrap':vis(A::user),'/bootstrap':label(!follows),'/bootstrap':vis(B::user),'/bootstrap':label(!since),'/bootstrap':vis(Time::'/bootstrap':number)])).
 '/bootstrap':defAtom(tweet::'/bootstrap':type).
-'/bootstrap':signature(text(Text)::tweet,[Text::'/bootstrap':string]).
-'/bootstrap':projection(text(Text)::tweet,'/bootstrap':horiz(['/bootstrap':label(!'"'),'/bootstrap':vis(Text::'/bootstrap':string),'/bootstrap':label(!'"')])).
+'/bootstrap':defAtom(text::'/bootstrap':type).
+'/bootstrap':signature(text(Text)::tweet,[Text::text]).
+'/bootstrap':projection(text(Text)::tweet,'/bootstrap':horiz(['/bootstrap':label(!'"'),'/bootstrap':vis(Text::text),'/bootstrap':label(!'"')])).
 '/bootstrap':signature(tweeted(User,Time,Tweet)::'/cloudlog':axiom,[User::user,Time::'/bootstrap':number,Tweet::tweet]).
 '/bootstrap':projection(tweeted(User,Time,Tweet)::'/cloudlog':axiom,'/bootstrap':horiz(['/bootstrap':vis(User::user),'/bootstrap':label(!tweeted),'/bootstrap':vis(Tweet::tweet),'/bootstrap':label(!at),'/bootstrap':vis(Time::'/bootstrap':number)])).
 '/bootstrap':signature(tweet(User,Tweet)::timelineElem,[User::user,Tweet::tweet]).
-'/bootstrap':signature(parsedTweet(ParsedTweet)::tweet,[ParsedTweet::'/bootstrap':list('/parsing':token(tweetCtx))]).
-'/bootstrap':projection(parsedTweet(ParsedTweet)::tweet,'/bootstrap':horiz(['/bootstrap':label(!'"'),cpi:vis(ParsedTweet::'/bootstrap':list('/parsing':token(tweetCtx)),'/bootstrap':horizontal('/bootstrap':label(!''),'/bootstrap':label(!''))),'/bootstrap':label(!'"')])).
-'/util':behavior(timeline(User,Time,Elem)::'/cloudlog':axiom,!'should display all tweets of follwed users', ('/cloudlog':withSimulate([follows(user(!alice),user(!bob),2000),tweeted(user(!bob),1000,text(!'Hello, Tweetlog'))],'/cl1':indexed(timelineKey(user(!alice)),timeline(user(!alice),TS,tweet(user(!bob),parsedTweet([word(!'Hello,'),word(!'Tweetlog')]))))),'/util':assertEqual(TS,1000,'/bootstrap':number))).
-'/cloudlog':axiom('/cloudlog':rule(follows(A,B,_),'/cloudlog':rule(tweeted(B,TS,T),processTweet(T,TPrime),timeline(A,TS,tweet(B,TPrime))))).
-'/cloudlog':axiom(cloudlog:index(timelineKey(User),timeline(User,_,_))).
-'/bootstrap':signature(processTweet(T,TPrime)::'/bootstrap':pred,[T::tweet,TPrime::tweet]).
-processTweet(T,TPrime):-builtin:if(specialProcessTweet(T,TPrime),builtin:true,TPrime::tweet=T::tweet).
-'/bootstrap':signature(specialProcessTweet(T,TPrime)::'/bootstrap':pred,[T::tweet,TPrime::tweet]).
+'/bootstrap':signature(rawText(Str)::text,[Str::'/bootstrap':string]).
+'/bootstrap':projection(rawText(Str)::text,'/bootstrap':horiz(['/bootstrap':halfSize('/bootstrap':label(!raw)),'/bootstrap':vis(Str::'/bootstrap':string)])).
+'/util':behavior(timeline(User,Time,Elem)::'/cloudlog':pred,!'should display all tweets of follwed users', ('/cloudlog':withSimulate([follows(user(!alice),user(!bob),2000),tweeted(user(!bob),1000,text(rawText(!'Hello, Tweetlog')))],timeline(user(!alice),TS,tweet(user(!bob),Tweet))),'/util':assertEqual(TS,1000,'/bootstrap':number),'/util':assertEqual(Tweet,text(tokenized([word(!'Hello,'),word(!'Tweetlog')])),tweet))).
+'/util':behavior(timeline(User,Time,Elem)::'/cloudlog':pred,!'should display the user who actually tweeted', ('/cloudlog':withSimulate([follows(user(!alice),user(!bob),2000),tweeted(user(!peter),1000,text(rawText(!'Hello, @bob')))],timeline(user(!alice),TS,tweet(Peter,Tweet))),'/util':assertEqual(Peter,user(!peter),user))).
+'/cloudlog':axiom(annotation:shrink('/cloudlog':rule(follows(U1,user(U2),_),annotation:shrink('/cloudlog':rule(searchIndex(userID(U2),Time,U3,Tweet),'/cloudlog':clause(timeline(U1,Time,tweet(U3,Tweet)),'/cloudlog':true)))))).

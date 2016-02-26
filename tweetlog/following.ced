@@ -1,9 +1,9 @@
 '/bootstrap':signature(followingYou(User)::timelineElem,[User::user]).
 '/bootstrap':projection(followingYou(User)::timelineElem,'/bootstrap':horiz(['/bootstrap':vis(User::user),'/bootstrap':label(!'is following you')])).
-'/util':behavior(followingYou(User)::timelineElem,!'should appear in the timeline of Foo when User is following Foo', ('/cloudlog':withSimulate([follows(user(!alice),user(!bob),2000)],'/cl1':indexed(timelineKey(user(!bob)),timeline(user(!bob),TwoK,followingYou(Alice)))),'/util':assertEqual(TwoK,2000,'/bootstrap':number),'/util':assertEqual(Alice,user(!alice),user))).
-'/cloudlog':axiom('/cloudlog':rule(follows(A,B,Time),Time>0,timeline(B,Time,followingYou(A)))).
+'/util':behavior(followingYou(User)::timelineElem,!'should appear in the timeline of Foo when User is following Foo', ('/cloudlog':withSimulate([follows(user(!alice),user(!bob),2000)],timeline(user(!bob),TwoK,followingYou(Alice))),'/util':assertEqual(TwoK,2000,'/bootstrap':number),'/util':assertEqual(Alice,user(!alice),user))).
+'/cloudlog':axiom('/cloudlog':rule(follows(A,B,Time),Time>0,'/cloudlog':clause(timeline(B,Time,followingYou(A)),'/cloudlog':true))).
 '/bootstrap':signature(youFollow(User)::timelineElem,[User::user]).
 '/bootstrap':projection(youFollow(User)::timelineElem,'/bootstrap':horiz(['/bootstrap':label(!'you are following'),'/bootstrap':vis(User::user)])).
-'/util':behavior(youFollow(User)::timelineElem,!'should appear in the timeline of Foo when User is following Foo', ('/cloudlog':withSimulate([follows(user(!alice),user(!bob),2000)],'/cl1':indexed(timelineKey(user(!alice)),timeline(user(!alice),TwoK,youFollow(Bob)))),'/util':assertEqual(TwoK,2000,'/bootstrap':number),'/util':assertEqual(Bob,user(!bob),user))).
-'/cloudlog':axiom('/cloudlog':rule(follows(A,B,Time),Time>0,timeline(A,Time,youFollow(B)))).
+'/util':behavior(youFollow(User)::timelineElem,!'should appear in the timeline of Foo when User is following Foo', ('/cloudlog':withSimulate([follows(user(!alice),user(!bob),2000)],timeline(user(!alice),TwoK,youFollow(Bob))),'/util':assertEqual(TwoK,2000,'/bootstrap':number),'/util':assertEqual(Bob,user(!bob),user))).
+'/cloudlog':axiom('/cloudlog':rule(follows(A,B,Time),Time>0,'/cloudlog':clause(timeline(A,Time,youFollow(B)),'/cloudlog':true))).
 '/cloudlog':axiom(follows(U,U,0)).
