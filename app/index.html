@@ -48,6 +48,12 @@
           </div>
           <button type="submit" class="btn btn-success">Sign in</button>
         </form>
+        <form class="navbar-form navbar-right" action="{{'#/search/' + searchStr}}">
+          <div class="form-group">
+            <input type="text" placeholder="Search..." ng-model="searchStr" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-success glyphicon glyphicon-search"></button>
+        </form>
       </div><!--/.navbar-collapse -->
     </div>
   </nav>
@@ -68,7 +74,10 @@
     <span><a href="{{'#/userTweets/' + $routeParams.user + '/' + User}}">@{{User}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:text(Text)" id="text">
-    <span>{{Text}}</span>
+    <span clg-render-term="Text"></span>
+  </script>
+  <script type="ng-template" clg-concept="t:tokenized(List)" id="tokenized">
+    <span clg-render-term="List"></span>
   </script>
   <script type="ng-template" clg-concept="t:parsedTweet(List)" id="parsedTweet">
     <span clg-render-term="List"></span>

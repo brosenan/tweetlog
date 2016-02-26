@@ -6,7 +6,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr class="timeline-entry" ng-repeat="entry in data | orderBy: entry.Fact.args[1]:true" clg-render-term="entry.Fact">
+    <tr ng-repeat="entry in data | orderBy: entry.Time:true">
+      <td>{{entry.Time | date: 'EEEE, MMM d, yyyy, H:mm'}}</td>
+      <td ng-if="entry.Entry" clg-render-term="entry.Entry"></td>
+      <td ng-if="entry.User && entry.Tweet"><span clg-render-term="entry.User"></span>: <span clg-render-term="entry.Tweet"></span></td>
     </tr>
   </tbody>
 </table>
