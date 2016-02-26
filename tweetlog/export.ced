@@ -1,3 +1,5 @@
 '/bootstrap':export(!'git/tweetlog/app/tweetlog.cedimg').
 '/bootstrap':signature(isUser(One,User)::'/cloudlog':pred,[One::'/bootstrap':number,User::user]).
 '/cloudlog':axiom('/cloudlog':rule(tweeted(User,_,_),'/cloudlog':clause(isUser(1,User),'/cloudlog':true))).
+'/bootstrap':signature(sentinel(Num)::'/cloudlog':axiom,[Num::'/bootstrap':number]).
+'/cloudlog':axiom(sentinel(1)).
