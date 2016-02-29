@@ -120,7 +120,18 @@ angular.module('cloudlog', [
 	    _concepts: concepts,
 	};
     }])
-    .controller('CloudlogCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
-	$scope.$routeParams = $routeParams;
+    .controller('CloudlogCtrl', ['$scope', '$routeParams', '$location', '$httpParamSerializer', function($scope, $routeParams, $location, $httpParamSerializer) {
+	Object.keys($routeParams).forEach(function(key) {
+	    $scope[key] = decodeURIComponent($routeParams[key]);
+	});
+	var search = $location.search();
+	$scope.$session = {}
+	Object.keys(search).forEach(function(key) {
+	    $scope.$session[key] = decodeURIComponent(search[key]);
+	});
 	$scope.now = function() { return (new Date()).getTime(); };
+	$scope.url = function(location, args) { return '#/' + location + '/'
+						+ args.map(encodeURIComponent).join('/')
+						+ (Object.keys($scope.$session).length > 0 ? '?' : '')
+						+ $httpParamSerializer($scope.$session)};
     }]);

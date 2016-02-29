@@ -153,20 +153,63 @@ describe('cloudlog module', function() {
 describe('CloudlogCtrl', function(){
     var $controller, $provide;
     beforeEach(module('cloudlog'));
-    it('should provide the $routeParams in the scope', function(){
+    it('should place all route parameters in the scope (decoded)', function(){
 	var scope = {};
 	module(function($provide) {
-	    $provide.value('$routeParams', {foo: 'bar'});
+	    $provide.value('$routeParams', {foo: 'y%20t', bar: 'x'});
 	});
 	inject(function($controller) {
 	    var ctrl = $controller('CloudlogCtrl', {$scope: scope});
-	    expect(scope.$routeParams).toBeDefined();
-	    expect(scope.$routeParams.foo).toBe('bar');
+	    expect(scope.foo).toBeDefined();
+	    expect(scope.foo).toBe('y t');
+	    expect(scope.bar).toBeDefined();
+	    expect(scope.bar).toBe('x');
 	});
     });
+    it('should place all search parameters under $session, in the scope (decoded)', function(){
+	var scope = {};
+	module(function($provide) {
+	    $provide.value('$location', {search: function() {
+		return {foo: 'y t', bar: 'x'}
+	    }});
+	});
+	inject(function($controller) {
+	    var ctrl = $controller('CloudlogCtrl', {$scope: scope});
+	    expect(scope.$session.foo).toBeDefined();
+	    expect(scope.$session.foo).toBe('y t');
+	    expect(scope.$session.bar).toBeDefined();
+	    expect(scope.$session.bar).toBe('x');
+	});
+    });
+    describe('.url(location, args, session)', function(){
+	it('should build a hash-url with the given location', function(){
+	    var scope = {};
+	    inject(function($controller) {
+		var ctrl = $controller('CloudlogCtrl', {$scope: scope});
+		expect(scope.url).toBeDefined();
+		expect(scope.url('foo', [])).toBe('#/foo/');
+	    });
+	});
+	it('should append all args, encoded', function(){
+	    var scope = {};
+	    inject(function($controller) {
+		var ctrl = $controller('CloudlogCtrl', {$scope: scope});
+		expect(scope.url('foo', ['bar', 'b/z'])).toBe('#/foo/bar/b%2Fz');
+	    });
+	});
+	it('should encode all $session parameters as search parameters', function(){
+	    var scope = {};
+	    inject(function($controller) {
+		var ctrl = $controller('CloudlogCtrl', {$scope: scope});
+		scope.$session = {baz: 'b a z'};
+		expect(scope.url('foo', [])).toBe('#/foo/?baz=b+a+z');
+	    });
+	});
+    });
+
     describe('.now()', function(){
 	it('should return the current time in milliseconds', function(){
-	var scope = {};
+	    var scope = {};
 	    inject(function($controller) {
 		var ctrl = $controller('CloudlogCtrl', {$scope: scope});
 		expect(scope.now).toBeDefined();
