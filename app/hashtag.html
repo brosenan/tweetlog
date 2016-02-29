@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div tweetlog-sidebar class="col-sm-3 col-md-2 sidebar"></div>
   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h2 class="sub-header">#{{$routeParams.tag}}</h2>
-    <clg-query goal="t:search(1, Tag, Time, User, Tweet)" to="tweets" assign="Tag: '#' + $routeParams.tag"></clg-indexed>
+    <h2 class="sub-header">#{{tag}}</h2>
+    <clg-query goal="t:search(1, Tag, Time, User, Tweet)" to="tweets" assign="Tag: '#' + tag"></clg-indexed>
     <div class="table-responsive" tweet-table="tweets">
     </div>
   </div>

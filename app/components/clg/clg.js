@@ -130,8 +130,10 @@ angular.module('cloudlog', [
 	    $scope.$session[key] = decodeURIComponent(search[key]);
 	});
 	$scope.now = function() { return (new Date()).getTime(); };
-	$scope.url = function(location, args) { return '#/' + location + '/'
-						+ args.map(encodeURIComponent).join('/')
-						+ (Object.keys($scope.$session).length > 0 ? '?' : '')
-						+ $httpParamSerializer($scope.$session)};
+	$scope.url = function(location, args) {
+	    args = args || [];
+	    return '#/' + location + '/'
+		+ args.map(encodeURIComponent).join('/')
+		+ (Object.keys($scope.$session).length > 0 ? '?' : '')
+		+ $httpParamSerializer($scope.$session)};
     }]);

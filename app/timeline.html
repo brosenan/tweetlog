@@ -2,21 +2,21 @@
   <div tweetlog-sidebar class="col-sm-3 col-md-2 sidebar"></div>
   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <form class="col-md-6">
-      <clg-fact pattern="t:tweeted(t:user(User), Time, t:text(t:rawText(Tweet)))" name="tweet" assign="User: $routeParams.user, Tweet: text, Time: now()"></clg-fact>
+      <clg-fact pattern="t:tweeted(t:user(User), Time, t:text(t:rawText(Tweet)))" name="tweet" assign="User: $session.user, Tweet: text, Time: now()"></clg-fact>
       <div class="form-group col-md-10">
 	<input type="text" placeholder="Share something..." ng-model="text" class="form-control">
       </div>
       <input type="submit" class="btn btn-info col-md-2" ng-click="add_tweet(); text = ''" value="Share!">
     </form>
     <form class="col-md-6">
-      <clg-fact pattern="t:follows(t:user(User), t:user(Followee), Time)" name="followee" assign="User: $routeParams.user, Followee: followee, Time: now()"></clg-fact>
+      <clg-fact pattern="t:follows(t:user(User), t:user(Followee), Time)" name="followee" assign="User: $session.user, Followee: followee, Time: now()"></clg-fact>
       <div class="form-group col-md-10">
 	<input type="text" placeholder="Follow someone..." ng-model="followee" class="form-control">
       </div>
       <input type="submit" class="btn btn-info col-md-2" ng-click="add_followee(); followee=''" value="Follow!">
     </form>
-    <h2 class="sub-header">{{$routeParams.user}}'s Timeline</h2>
-    <clg-query goal="t:timeline(t:user(User), Time, Entry)" to="timeline" assign="User: $routeParams.user"></clg-query>
+    <h2 class="sub-header">{{$session.user}}'s Timeline</h2>
+    <clg-query goal="t:timeline(t:user(User), Time, Entry)" to="timeline" assign="User: $session.user"></clg-query>
     <div class="table-responsive" tweet-table="timeline">
     </div>
   </div>

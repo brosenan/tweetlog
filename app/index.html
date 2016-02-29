@@ -27,7 +27,7 @@
     }
   </style>
 </head>
-<body>
+<body ng-controller="CloudlogCtrl">
 
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -42,13 +42,13 @@
         <a class="navbar-brand" href="#">Tweet<span style="font-variant: small-caps;">l</span>og</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-        <form class="navbar-form navbar-right" action="{{'#/timeline/' + userName}}">
+        <form class="navbar-form navbar-right" action="{{url('timeline')}}">
           <div class="form-group">
-            <input type="text" placeholder="User Name" ng-model="userName" class="form-control">
+            <input type="text" placeholder="User Name" ng-model="$session.user" class="form-control">
           </div>
           <button type="submit" class="btn btn-success">Sign in</button>
         </form>
-        <form class="navbar-form navbar-right" action="{{'#/search/' + searchStr}}">
+        <form class="navbar-form navbar-right" action="{{url('search', [searchStr])}}">
           <div class="form-group">
             <input type="text" placeholder="Search..." ng-model="searchStr" class="form-control">
           </div>
@@ -71,7 +71,7 @@
     <span clg-render-term="User"></span>: <span clg-render-term="Tweet"></span>
   </script>
   <script type="ng-template" clg-concept="t:user(User)" id="user">
-    <span><a href="{{'#/userTweets/' + $routeParams.user + '/' + User}}">@{{User}}</a></span>
+    <span><a href="{{url('userTweets', [User])}}">@{{User}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:text(Text)" id="text">
     <span clg-render-term="Text"></span>
@@ -93,10 +93,10 @@
     <span>{{Word}}</span>
   </script>
   <script type="ng-template" clg-concept="t:userID(User)" id="userID">
-    <span><a href="{{'#/userTweets/' + $routeParams.user + '/' + User}}">@{{User}}</a></span>
+    <span><a href="{{url('userTweets', [User])}}">@{{User}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:hashtag(Tag)" id="hashtag">
-    <span><a href="{{'#/hashtag/' + $routeParams.user + '/' + Tag}}">#{{Tag}}</a></span>
+    <span><a href="{{url('hashtag', [Tag])}}">#{{Tag}}</a></span>
   </script>
   <script type="ng-template" clg-concept="t:followingYou(User)" id="followingYou">
     <span><span clg-render-term="User"></span> is following you</span>
@@ -120,7 +120,7 @@
     ])
     .config(['$routeProvider', function($routeProvider) {
 	$routeProvider
-	    .when('/timeline/:user', {
+	    .when('/timeline', {
 		templateUrl: 'timeline.html',
 		controller: 'CloudlogCtrl'
 	    })
@@ -132,11 +132,11 @@
 		templateUrl: 'learnMore.html',
 		controller: 'CloudlogCtrl'
 	    })
-	    .when('/hashtag/:user/:tag', {
+	    .when('/hashtag/:tag', {
 		templateUrl: 'hashtag.html',
 		controller: 'CloudlogCtrl'
 	    })
-	    .when('/userTweets/:user/:author', {
+	    .when('/userTweets/:author', {
 		templateUrl: 'userTweets.html',
 		controller: 'CloudlogCtrl'
 	    })

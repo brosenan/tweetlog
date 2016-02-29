@@ -181,13 +181,13 @@ describe('CloudlogCtrl', function(){
 	    expect(scope.$session.bar).toBe('x');
 	});
     });
-    describe('.url(location, args, session)', function(){
+    describe('.url(location[, args])', function(){
 	it('should build a hash-url with the given location', function(){
 	    var scope = {};
 	    inject(function($controller) {
 		var ctrl = $controller('CloudlogCtrl', {$scope: scope});
 		expect(scope.url).toBeDefined();
-		expect(scope.url('foo', [])).toBe('#/foo/');
+		expect(scope.url('foo')).toBe('#/foo/');
 	    });
 	});
 	it('should append all args, encoded', function(){

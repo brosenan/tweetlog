@@ -1,7 +1,7 @@
 <ul class="nav nav-sidebar">
-  <li><a href="#/timeline/{{$routeParams.user}}">Timeline</span></a></li>
-  <li><a href="#/userTweets/{{$routeParams.user}}/{{$routeParams.user}}">My Tweets</a></li>
-  <li><a href="#/followers/{{$routeParams.user}}">Followers</a></li>
-  <li><a href="#/followees/{{$routeParams.user}}">Followees</a></li>
-  <li><a href="#/learnMore">About</a></li>
+  <li><a href="{{url('timeline')}}">Timeline</span></a></li>
+  <li><a href="{{url('userTweets', [$session.user])}}">My Tweets</a></li>
+  <li><a href="{{url('followers')}}">Followers</a></li>
+  <li><a href="{{url('followees')}}">Followees</a></li>
+  <li><a href="{{url('learnMore')}}">About</a></li>
 </ul>
