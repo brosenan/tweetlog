@@ -140,6 +140,10 @@
 		templateUrl: 'userTweets.html',
 		controller: 'CloudlogCtrl'
 	    })
+	    .when('/search/:searchStr', {
+		templateUrl: 'search.html',
+		controller: 'CloudlogCtrl'
+	    })
 	    .otherwise({redirectTo: '/welcome'});
     }])
     .directive('tweetlogSidebar', [function() {
