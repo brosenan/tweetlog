@@ -1,0 +1,9 @@
+'/bootstrap':signature(numberedList(N)::'/bootstrap':mode,[N::'/bootstrap':number]).
+'/bootstrap':sandbox(annotation:changeMode([1,2,3],numberedList(1))::'/bootstrap':list('/bootstrap':number)).
+'/bootstrap':userVisualization([]::'/bootstrap':list(_),numberedList(_),_,'/bootstrap':horiz([])):-builtin:true.
+annotation:shrink(('/bootstrap':userVisualization([First|Rest]::'/bootstrap':list(T),numberedList(N),_,'/bootstrap':vert(['/bootstrap':horiz(['/bootstrap':symbol(UnicodeN),'/bootstrap':vis(First::T)]),cpi:vis(Rest::'/bootstrap':list(T),numberedList(NPrime))])):-builtin:succ(N,NPrime),'/Functional':eval('/Functional':applyBinOp('/Functional':const(N),'/Functional':numPlus,'/Functional':const(9351)),'/bootstrap':number,UnicodeN))).
+'/bootstrap':signature(showNumbered(List,VNs)::'/bootstrap':procedure,[List::'/bootstrap':list('/bootstrap':statement),VNs::'/bootstrap':list('/bootstrap':varName)]).
+'/bootstrap':procedure(showNumbered(List,VNs),'/bootstrap':showView(cpi:vis(cpi:immediateDescriptor(List,VNs)::'/bootstrap':list('/bootstrap':statement),numberedList(1)))).
+'/bootstrap':contextMenuEntry(List::'/bootstrap':list('/bootstrap':statement),VNs,_,!'Show Numbered',showNumbered(List,VNs)).
+'/bootstrap':signature(numberedBox(List)::'/bootstrap':statement,[List::'/bootstrap':list('/bootstrap':statement)]).
+'/bootstrap':projection(numberedBox(List)::'/bootstrap':statement,cpi:vis(List::'/bootstrap':list('/bootstrap':statement),numberedList(1))).

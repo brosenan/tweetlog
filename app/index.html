@@ -113,54 +113,6 @@
   <script src="bower_components/angular-moment/angular-moment.js"></script-->
   <script src="components/clg/clg.js"></script>
   <script src="components/clg/clg-directive.js"></script>
-  <!--script language="javascript">
-    angular.module('myApp', [
-	'ngRoute',
-	'cloudlog',
-    ])
-    .config(['$routeProvider', function($routeProvider) {
-	$routeProvider
-	    .when('/timeline', {
-		templateUrl: 'timeline.html',
-		controller: 'CloudlogCtrl'
-	    })
-	    .when('/welcome', {
-		templateUrl: 'welcome.html',
-		controller: 'CloudlogCtrl'
-	    })
-	    .when('/learnMore', {
-		templateUrl: 'learnMore.html',
-		controller: 'CloudlogCtrl'
-	    })
-	    .when('/hashtag/:tag', {
-		templateUrl: 'hashtag.html',
-		controller: 'CloudlogCtrl'
-	    })
-	    .when('/userTweets/:author', {
-		templateUrl: 'userTweets.html',
-		controller: 'CloudlogCtrl'
-	    })
-	    .when('/search/:searchStr', {
-		templateUrl: 'search.html',
-		controller: 'CloudlogCtrl'
-	    })
-	    .otherwise({redirectTo: '/welcome'});
-    }])
-    .directive('tweetlogSidebar', [function() {
-	return {
-	    templateUrl: 'sidebar.html',
-	};
-    }])
-    .directive('tweetTable', ['$parse', function($parse) {
-	return {
-	    templateUrl: 'tweetTable.html',
-	    link: function(scope, elem, attr) {
-		scope.data = $parse(attr.tweetTable)(scope);
-	    },
-	};
-    }]);
-    
-    </script-->
   <script language="javascript">
     cloudlog({
 	name: 'myApp',
