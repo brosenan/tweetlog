@@ -113,7 +113,7 @@
   <script src="bower_components/angular-moment/angular-moment.js"></script-->
   <script src="components/clg/clg.js"></script>
   <script src="components/clg/clg-directive.js"></script>
-  <script language="javascript">
+  <!--script language="javascript">
     angular.module('myApp', [
 	'ngRoute',
 	'cloudlog',
@@ -160,6 +160,24 @@
 	};
     }]);
     
+    </script-->
+  <script language="javascript">
+    cloudlog({
+	name: 'myApp',
+	defaultUri: '/welcome',
+	route: {
+	    '/welcome': 'welcome.html',
+	    '/learnMore': 'learnMore.html',
+	    '/timeline': 'timeline.html',
+	    '/userTweets/:author': 'userTweets.html',
+	    '/hashtag/:tag': 'hashtag.html',
+	    '/search/:searchStr': 'search.html',
+	},
+	templates: {
+	    'tweetTable': 'tweetTable.html',
+	    'tweetlogSidebar': 'sidebar.html',
+	},
+    });
   </script>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>

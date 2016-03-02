@@ -220,5 +220,4 @@ describe('CloudlogCtrl', function(){
 	});
 
     });
-
 });

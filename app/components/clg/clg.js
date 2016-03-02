@@ -137,3 +137,32 @@ angular.module('cloudlog', [
 		+ (Object.keys($scope.$session).length > 0 ? '?' : '')
 		+ $httpParamSerializer($scope.$session)};
     }]);
+
+function cloudlog(config) {
+    var myApp = angular.module(config.name, ['ngRoute', 'cloudlog'].concat(config.dependencies || []));
+    if(config.route) {
+	myApp.config(['$routeProvider', function($routeProvider) {
+	    Object.keys(config.route).forEach(function(uri) {
+		$routeProvider = $routeProvider.when(uri, {
+		    templateUrl: config.route[uri],
+		    controller: 'CloudlogCtrl',
+		});
+	    });
+	    $routeProvider.otherwise({redirectTo: config.defaultUri || '/'});
+	}]);
+    }
+    if(config.templates) {
+	Object.keys(config.templates).forEach(function(templateName) {
+	    myApp.directive(templateName, ['$parse', function($parse) {
+		return {
+		    templateUrl: config.templates[templateName],
+		    link: function(scope, elem, attr) {
+			if(attr[templateName] !== '') {
+			    scope.data = $parse(attr[templateName])(scope);
+			}
+		    },
+		};
+	    }]);
+	});
+    }
+}
