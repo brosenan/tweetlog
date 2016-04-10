@@ -1,7 +1,7 @@
 '/bootstrap':signature(hashtag(Tag)::'/parsing':token(tweetCtx),[Tag::'/bootstrap':string]).
 '/bootstrap':projection(hashtag(Tag)::'/parsing':token(tweetCtx),'/bootstrap':horiz(['/bootstrap':label(!'#'),'/bootstrap':vis(Tag::'/bootstrap':string)])).
 '/util':behavior(hashtag(Tag)::'/parsing':token(tweetCtx),!'should parse a #hashtag', (parseTweet(!'this is a #hashtag',Parsed),'/util':assertEqual(Parsed,[word(!this),word(! (is)),word(!a),hashtag(!hashtag)],'/bootstrap':list('/parsing':token(tweetCtx))))).
-'/parsing':prod('/parsing':token(hashtag(Tag),tweetCtx),'/bootstrap':number,'/parsing':follow('/parsing':char(!'#'),'/parsing':follow('/parsing':bind('/parsing':oneOrMoreMax('/parsing':not(!' ')),Codes),'/parsing':pred(builtin:charCodes(Tag,Codes))))).
+'/parsing':tokenDef(hashtag(Tag),'/parsing':follow('/parsing':char(!'#'),'/parsing':follow('/parsing':bind('/parsing':oneOrMoreMax('/parsing':not(!' ')),Codes),'/parsing':pred(builtin:charCodes(Tag,Codes)))),tweetCtx).
 '/bootstrap':signature(hashtagKey(Tag)::'/cl1':key,[Tag::'/bootstrap':string]).
 '/util':behavior(hashtagKey(Tag)::'/cl1':key,!'should fetch all tweets with the given hashtag', ('/cloudlog':withSimulate([tweeted(user(!bar),1000,text(!'I like #foo')),tweeted(user(!foo),2000,text(!'I like #bar'))],'/cl1':indexed(hashtagKey(!bar),Tweet)),'/util':assertEqual(Tweet,tweeted(user(!foo),2000,parsedTweet([word(!'I'),word(!like),hashtag(!bar)])),'/cloudlog':axiom))).
 '/cloudlog':axiom('/cloudlog':rule(tweeted(User,Time,text(Text)), (parseTweet(Text,List),'/bootstrap':listMember(hashtag(Tag),'/parsing':token(tweetCtx),List)),'/cloudlog':clause('/cl1':indexed(hashtagKey(Tag),tweeted(User,Time,parsedTweet(List))),'/cloudlog':true))).

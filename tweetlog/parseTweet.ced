@@ -10,4 +10,3 @@
 parseTweet(Text,Parsed):-'/parsing':parseString('/parsing':tokens(Parsed,tweetCtx),Text).
 '/parsing':tokenDef(word(Word),'/parsing':follow('/parsing':bind('/parsing':oneOrMoreMax('/parsing':not(!' #@')),WordCodes),'/parsing':pred(builtin:charCodes(Word,WordCodes))),tweetCtx).
 '/parsing':prod('/parsing':layout(tweetCtx),'/bootstrap':number,'/parsing':char(!' ')).
-specialProcessTweet(text(T),parsedTweet(TPrime)):-parseTweet(T,TPrime).
