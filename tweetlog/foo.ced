@@ -1,2 +1,4 @@
 '/bootstrap':signature(foo(T,U)::'/cloudlog':axiom,[T::tweet,U::user]).
 '/cloudlog':axiom('/cloudlog':rule(tweeted(U,Tau,T),foo(T,U))).
+'/bootstrap':signature(ccc(T,U)::'/cloudlog':axiom,[T::tweet,U::user]).
+'/cloudlog':axiom('/cloudlog':rule(tweeted(U,Tau,T),ccc(T,U))).
