@@ -1,0 +1,1 @@
+'/cloudlog':axiom('/cloudlog':rule(tweeted(U,Tau,T),foo(T,U))).
