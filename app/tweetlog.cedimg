@@ -4804,3 +4804,7 @@ rem(:-('/bootstrap#check'(A,::(B,'/bootstrap#statement'),C,'/bootstrap#marker'(A
 '/bootstrap#signature'(::('/tweetlog#ccc'(A,B),'/cloudlog#axiom'),'.'(::(A,'/tweetlog#tweet'),'.'(::(B,'/tweetlog#user'),[]))).
 :-('builtin#loadedStatement'(!('/home/cedalion/git/tweetlog/tweetlog/foo.ced'),'/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,B,C),'/tweetlog#ccc'(C,A))),'.'('builtin#varName'(::(A,D),!('U')),'.'('builtin#varName'(::(B,E),!('Tau')),'.'('builtin#varName'(::(C,F),!('T')),[])))),'builtin#true').
 '/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,B,C),'/tweetlog#ccc'(C,A))).
+:-('builtin#loadedStatement'(!('/home/cedalion/git/tweetlog/tweetlog/foo.ced'),'/bootstrap#signature'(::('/tweetlog#ddd'(A,B),'/cloudlog#axiom'),'.'(::(A,'/tweetlog#tweet'),'.'(::(B,'/tweetlog#user'),[]))),'.'('builtin#varName'(::(A,C),!('T')),'.'('builtin#varName'(::(B,D),!('U')),[]))),'builtin#true').
+'/bootstrap#signature'(::('/tweetlog#ddd'(A,B),'/cloudlog#axiom'),'.'(::(A,'/tweetlog#tweet'),'.'(::(B,'/tweetlog#user'),[]))).
+:-('builtin#loadedStatement'(!('/home/cedalion/git/tweetlog/tweetlog/foo.ced'),'/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,B,C),'/tweetlog#ddd'(C,A))),'.'('builtin#varName'(::(A,D),!('U')),'.'('builtin#varName'(::(B,E),!('Tau')),'.'('builtin#varName'(::(C,F),!('T')),[])))),'builtin#true').
+'/cloudlog#axiom'('/cloudlog#rule'('/tweetlog#tweeted'(A,B,C),'/tweetlog#ddd'(C,A))).
