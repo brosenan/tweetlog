@@ -4,3 +4,5 @@
 '/cloudlog':axiom('/cloudlog':rule(tweeted(U,Tau,T),ccc(T,U))).
 '/bootstrap':signature(ddd(T,U)::'/cloudlog':axiom,[T::tweet,U::user]).
 '/bootstrap':disabled('/cloudlog':axiom('/cloudlog':rule(tweeted(U,Tau,T),ddd(T,U)))).
+'/bootstrap':signature(eee(T,U)::'/cloudlog':axiom,[T::tweet,U::user]).
+'/cloudlog':axiom('/cloudlog':rule(tweeted(U,Tau,T),eee(T,U))).
